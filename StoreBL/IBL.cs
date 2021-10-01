@@ -6,22 +6,29 @@ namespace StoreBL
     public interface IBL
     {
         List<Customer> GetAllCustomers();
-        Customer AddCustomer(Customer newCustomer);
         List<Customer> FindOneCustomer(string qryString);
-        List<Inventory> GetInventoryByStoreID(Customer newCustomer);
-        List<StoreFront> GetStoreFronts();
+        Customer AddCustomer(Customer newCustomer);
+        void RemoveCustomer(Customer currentCustomer);
+        Customer UpdateCustomer(Customer currentCustomer);
         List<Product> ProductsList();
-        StoreFront GetMyStore(Customer cust);
         Product GetProduct(int input);
-        Order AddNewOrder(Order newOrd);
-        void AddLineItems(List <LineItem> items);
-        void InventorToUpdate(List<Models.Inventory> items);
-        List<Order> ListOfOrdersByCust(Customer cust);
-        List<LineItem> LineItemsList();
-        List<Order> ListOrder();
-        Models.Customer CustomerStoreUpdate(Models.Customer cust);
+        Product AddProduct(int input);
+        Product UpdateProduct(Product prodToUpdate);
+        void RemoveProduct(Product prodToUpdate);
+        List<Inventory> GetInventoryByStoreID(Customer newCustomer);
         List<Inventory> GetInventoryForAdmin(int input);
-        
+        void InventorToUpdate(List<Inventory> items);
+        List<StoreFront> GetAllStoreFronts();
+        StoreFront GetMyStore(Customer cust);
+        StoreFront AddStoreFront(int ID);
+        StoreFront UpdateStoreFront(int ID);
+        void RemoveStoreFront(int ID);
+        Order AddNewOrder(Order newOrd);
+        void AddLineItems(List<LineItem> items);
+        List<Order> ListOfOrdersByCust(Customer cust);
+        List<Order> ListOrder();
+        List<LineItem> LineItemsList();
+        ///shopping cart view list option? or add and remove options for shopping cart here?
 
-    }
+        }
 }

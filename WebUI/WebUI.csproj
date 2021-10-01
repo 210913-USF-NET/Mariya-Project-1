@@ -21,4 +21,10 @@
     <ProjectReference Include="..\StoreBL\BL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Inventory\" />
+    <Folder Include="Views\ShoppingCart\" />
+  </ItemGroup>
+
 </Project>
