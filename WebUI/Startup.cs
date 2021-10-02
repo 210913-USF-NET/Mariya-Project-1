@@ -30,7 +30,7 @@ namespace WebUI
             services.AddControllersWithViews();
             services.AddDbContext<StoreDBContext>(options => options.UseNpgsql(Configuration.GetConnectionString("StoreDB")));
 
-           /* services.AddScoped<IRepo, Repo>();*/
+            //services.AddScoped<IRepo, Repo>();
             //services.AddScoped<IBL, BL>();
             }
 

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DL.Migrations
 {
     [DbContext(typeof(StoreDBContext))]
-    [Migration("20211001174214_initial")]
+    [Migration("20211002020642_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,9 +23,10 @@ namespace DL.Migrations
 
             modelBuilder.Entity("Models.Customer", b =>
                 {
-                    b.Property<Guid>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("City")
                         .HasColumnType("text");
@@ -39,7 +40,10 @@ namespace DL.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
@@ -131,9 +135,6 @@ namespace DL.Migrations
                     b.Property<int>("CustomerID")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
 
@@ -145,7 +146,7 @@ namespace DL.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("Orders");
                 });
@@ -237,7 +238,9 @@ namespace DL.Migrations
                 {
                     b.HasOne("Models.Customer", "Customer")
                         .WithMany("OrdersList")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Customer");
                 });

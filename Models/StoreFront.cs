@@ -12,11 +12,11 @@ namespace Models
         //    }
      
         public int StoreFrontId { get; set; }
-        public string Name { get; set; }
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
+        public string StoreName { get; set; }
+        public string StoreStreet { get; set; }
+        public string StoreCity { get; set; }
+        public string StoreState { get; set; }
+        public string StoreCountry { get; set; }
 
         //public override string ToString(){
         //    return $"\nStore ID: {this.StoreID}\nStore Name: {this.Name}\nAddress: {this.Address}";

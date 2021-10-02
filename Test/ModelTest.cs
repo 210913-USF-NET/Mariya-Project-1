@@ -21,10 +21,10 @@ namespace Test
             string testName = "test";
 
             //Act
-            test.Name = testName;
+            test.FirstName = testName;
 
             //Assert
-            Assert.Equal(testName, test.Name);
+            Assert.Equal(testName, test.FirstName);
         }
         [Fact]
         public void OrderShouldCreate()
@@ -62,10 +62,10 @@ namespace Test
             int testId = 1;
 
             //Act
-            test.OrderID = testId;
+            test.LineOrderID = testId;
 
             //Assert
-            Assert.Equal(testId, test.OrderID);
+            Assert.Equal(testId, test.LineOrderID);
         } 
         [Fact]
         public void ProductShouldCreate()
@@ -82,10 +82,10 @@ namespace Test
             string testName = "test ";
 
             //Act
-            test.Name = testName;
+            test.ProductName = testName;
 
             //Assert
-            Assert.Equal(testName, test.Name);
+            Assert.Equal(testName, test.ProductName);
         } 
         [Fact]
         public void StoreFrontShouldCreate()
@@ -102,10 +102,10 @@ namespace Test
             string testName = "test ";
 
             //Act
-            test.Name = testName;
+            test.StoreName = testName;
 
             //Assert
-            Assert.Equal(testName, test.Name);
+            Assert.Equal(testName, test.StoreName);
         } 
 
     }

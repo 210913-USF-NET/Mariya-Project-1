@@ -6,30 +6,43 @@ using Models;
 
 namespace StoreBL
 {
-    public class BL //: IBL
+    public class BL : IBL
     {
         private IRepo _repo;
         public BL(IRepo repo)
         {
             _repo = repo;
         }
+        public Customer AddCustomer(Customer newCustomer)
+            {
+            //newCustomer.CustomerId = new Guid();
+            return _repo.AddCustomer(newCustomer);
+            }
+        public List<Customer> FindOneCustomer(string qryString)
+            {
+            return _repo.FindOneCustomer(qryString);
+            }
+        public List<Customer> GetAllCustomers()
+            {
+            throw new NotImplementedException();
+            }
+
+        public void RemoveCustomer(Customer currentCustomer)
+            {
+            throw new NotImplementedException();
+            }
         //public decimal ShoppingCartTotal(Dictionary<Product, int> myCart)
         //    {
         //    return ShoppingCart.MyCart.Sum(x => x.Key.Price);
         //    }
-        //public Customer AddCustomer(Customer newCustomer)
-        //{
-        //    newCustomer.CustomerId = new Guid();
-        //    return _repo.AddCustomer(newCustomer);
-        //}
+
         //public Product GetProduct(int input)
         //{
         //    return _repo.GetProduct(input);
         //}
-        //public List<Customer> FindOneCustomer(string qryString)
-        //{
-        //    return _repo.FindOneCustomer(qryString);
-        //}
+
+
+
         //public  List<Inventory> GetInventoryByStoreID(Customer newCustomer)
         //{
         //    return _repo.GetInventoryByStoreID(newCustomer);
@@ -93,5 +106,5 @@ namespace StoreBL
         //{
         //    return _repo.GetInventoryForAdmin(input);
         //}
-    }
+        }
 }

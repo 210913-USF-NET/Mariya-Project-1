@@ -10,7 +10,7 @@ using DL;
 
 namespace DL
 {
-    public class Repo //: IRepo
+    public class Repo : IRepo
     {
         private StoreDBContext _context;
         public Repo(StoreDBContext context)
@@ -22,7 +22,7 @@ namespace DL
         /// </summary>
         /// <param name="newCustomer">model created from user input</param>
         /// <returns>Return customer obj once it's been added to DB</returns>
-        public Models.Customer AddCustomer(Models.Customer newCustomer)
+        public Customer AddCustomer(Customer newCustomer)
             {
 
             newCustomer = _context.Add(newCustomer).Entity;
@@ -38,7 +38,33 @@ namespace DL
         ///// <returns>List Of Customers with matching names</returns>
         public List<Models.Customer> FindOneCustomer(string qryString)
             {
-            return _context.Customers.Where(u => u.UserName.ToLower().Trim().Contains(qryString.ToLower().Trim()) || u.Name.ToLower().Trim().Contains(qryString.ToLower().Trim())).ToList();
+            return _context.Customers.Where(u => u.FirstName.ToLower().Trim().Contains(qryString.ToLower().Trim()) || u.LastName.ToLower().Trim().Contains(qryString.ToLower().Trim())).ToList();
+            }
+
+        public List<Customer> GetAllCustomers()
+            {
+                return _context.Customers.Include(x => x.OrdersList).Select(
+                    x => new Customer()
+                        {
+                        CustomerId = x.CustomerId,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        UserName = x.UserName,
+                        Password = x.Password,
+                        Email = x.Email,
+                        Street = x.Street,
+                        City = x.City,
+                        State = x.State,
+                        Country = x.Country,
+                        CustomerDefaultStoreID = x.CustomerDefaultStoreID
+                        }
+                ).ToList();
+                        
+                }
+
+        public void RemoveCustomer(Customer currentCustomer)
+            {
+            throw new NotImplementedException();
             }
         ///// <summary>
         ///// Returns model store by inputting customer default store

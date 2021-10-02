@@ -1,0 +1,1 @@
+Server=tcp:proj00server.database.windows.net,1433;Initial Catalog=Project00;Persist Security Info=False;User ID=proj0-admin;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;

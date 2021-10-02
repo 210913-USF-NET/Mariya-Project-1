@@ -6,8 +6,8 @@ namespace Models
     {
 
         public int LineItemId { get; set; }
-        public int OrderID { get; set; }
-        public int ProductID { get; set; }
+        public int LineOrderID { get; set; }
+        public int LineProductID { get; set; }
         public int StoreId { get; set; }
         public Inventory Inventories { get; set; }
         public int Quantity { get; set; }
