@@ -22,9 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Customer\" />
-    <Folder Include="Views\Inventory\" />
-    <Folder Include="Views\ShoppingCart\" />
+    <Folder Include="Views\StoreFront\" />
   </ItemGroup>
 
 </Project>

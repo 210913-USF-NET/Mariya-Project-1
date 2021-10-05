@@ -19,7 +19,7 @@ namespace Test
             options = new DbContextOptionsBuilder<StoreDBContext>().UseSqlite("Filename=Test.db").Options;
             Seed();
             }
-        private void SeedCustomer()
+        private void Seed()
             {
             using (var context = new StoreDBContext(options))
                 {
@@ -95,6 +95,55 @@ namespace Test
                 Assert.Equal("George", customer.FirstName);
                 Assert.Equal("Palm Springs", customer.City);
                 Assert.Equal("CA", customer.State);
+                }
+            }
+        [Fact]
+        public void FindingExistingCustomerShouldReturnCustomer()
+            {
+            Customer cust;
+            String custFName = "Bob";
+            String custLName = "Fish";
+            using (var context = new StoreDBContext(options))
+                {
+                //Arrange with my repo and the item i'm going to add
+                IRepo repo = new Repo(context);
+
+
+                //Act
+                cust = repo.FindOneCustomersByName(custFName, custLName);
+                }
+
+            using (var context = new StoreDBContext(options))
+                {
+                //Assert
+                
+                Assert.NotNull(cust);
+                Assert.Equal("Fish", cust.LastName);
+                Assert.Equal("Lakeland", cust.City);
+                Assert.Equal("FL", cust.State);
+                }
+            }
+        [Fact]
+        public void FindingExistingCustomersShouldReturnCustomers()
+            {
+            List<Customer> allcust = new List<Customer>();
+            using (var context = new StoreDBContext(options))
+                {
+                //Arrange with my repo and the item i'm going to add
+                IRepo repo = new Repo(context);
+
+
+                //Act
+                allcust = repo.GetAllCustomers();
+                }
+
+            using (var context = new StoreDBContext(options))
+                {
+                //Assert
+
+                Assert.NotNull(allcust);
+                Assert.Equal(2, allcust.Count);
+
                 }
             }
         }

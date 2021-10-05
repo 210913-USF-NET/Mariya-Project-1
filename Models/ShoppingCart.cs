@@ -4,12 +4,14 @@ using Models;
 
 namespace Models
 {
-    public static class ShoppingCart 
+    public  class ShoppingCart 
     {
-         public static Dictionary <Product, int> MyCart = new Dictionary<Product, int>();
+        //public static  = new Dictionary<Product, int>();
+        public int ShoppingCartId { get; set; }
+        public Customer ShoppingCartCustomer { get; set; }
+        public Product ShoppingCartProd { get; set; }
+        public int ShoppingCartQuantity { get; set; }
 
 
-
-       
-    }
+        }
 }

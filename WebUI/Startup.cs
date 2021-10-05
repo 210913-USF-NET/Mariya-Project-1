@@ -2,16 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StoreBL;
-using Models;
-using DL;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebUI
     {
@@ -30,8 +29,8 @@ namespace WebUI
             services.AddControllersWithViews();
             services.AddDbContext<StoreDBContext>(options => options.UseNpgsql(Configuration.GetConnectionString("StoreDB")));
 
-            //services.AddScoped<IRepo, Repo>();
-            //services.AddScoped<IBL, BL>();
+            services.AddScoped<IRepo, Repo>();
+            services.AddScoped<IBL, BL>();
             }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -35,10 +35,7 @@ namespace Models
         public string Country { get; set; }
         public int CustomerDefaultStoreID { get; set; }
         public List<Order> OrdersList { get; set; }
+        public bool IsAdmin { get; set; }
 
-        //public override string ToString()
-        //{
-        //    return $"Customer Id: {this.CustomerId}\nName: {this.Name}\nUserName: {this.UserName}\nEmail: {this.Email}\nAddress: {this.Address}\nPreferred Store: {this.CustomerDefaultStoreID}";
-        //}
-    }
+        }
 }

@@ -15,11 +15,12 @@ namespace DL
 
         public StoreDBContext(DbContextOptions<StoreDBContext> options) : base(options) { }
 
-        public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<Inventory> Inventories { get; set; }
-        public virtual DbSet<LineItem> LineItems { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<StoreFront> StoreFronts { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<LineItem> LineItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<StoreFront> StoreFronts { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         }
     }
