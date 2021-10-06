@@ -110,7 +110,7 @@ namespace Test
 
 
                 //Act
-                cust = repo.FindOneCustomersByName(custFName, custLName);
+                cust = repo.GetOneCustomersByName(custFName, custLName);
                 }
 
             using (var context = new StoreDBContext(options))

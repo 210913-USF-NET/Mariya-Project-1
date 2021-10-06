@@ -32,37 +32,35 @@ namespace DL
             return newCustomer;
             }
 
-        public void CustomerStoreUpdate(int custId, int newStoreID)
-            {
-            Customer custToUpdate = _context.Customers.FirstOrDefault(u => u.CustomerId == custId);
-            custToUpdate.CustomerDefaultStoreID = newStoreID;
-            _context.SaveChanges();
-            _context.ChangeTracker.Clear();
-
-            }
-
         ///// <summary>
         ///// Searches DB for any customers with name or username like input
         ///// </summary>
         ///// <param name="qryString">name string to get from user input in console</param>
         ///// <returns>List Of Customers with matching names</returns>
-        public List<Customer> FindCustomersByName(string fname, string lname)
+        public List<Customer> GetCustomersByName(string fname, string lname)
             {
             return _context.Customers.Where(u => u.FirstName.ToLower().Trim().Contains(fname.ToLower().Trim()) || u.LastName.ToLower().Trim().Contains(lname.ToLower().Trim())).ToList();
             }
 
-        public Customer FindOneCustomersByName(string fname, string lname)
+        public Customer GetOneCustomersByName(string fname, string lname)
             {
             return _context.Customers.Where(u => u.FirstName.ToLower().Trim().Contains(fname.ToLower().Trim()) && u.LastName.ToLower().Trim().Contains(lname.ToLower().Trim())).FirstOrDefault();
             }
-        public Customer FindOneCustomersByUserName(string username)
+        public Customer GetcustbyEmailUsername(string input)
             {
-            return _context.Customers.Where(u => u.UserName.ToLower().Trim().Contains(username.ToLower().Trim())).FirstOrDefault();
+            return _context.Customers.Where(u => u.UserName.ToLower().Trim().Contains(input.ToLower().Trim()) || u.Email.ToLower().Trim().Equals(input.ToLower().Trim())).FirstOrDefault();
             }
 
-        public Customer FindOneCustomerById(int custID)
+        public Customer GetOneCustomerById(int custID)
             {
             return _context.Customers.FirstOrDefault(u => u.CustomerId == custID);
+            }
+        public void RemoveCustomer(int custID)
+            {
+            Customer toDelete = _context.Customers.FirstOrDefault(x => x.CustomerId == custID);
+            _context.Customers.Remove(toDelete);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
             }
         public List<Customer> GetAllCustomers()
             {
@@ -83,7 +81,18 @@ namespace DL
                 }).ToList();
 
             }
+        public Customer UpdateCustomer(Customer currentCustomer)
+            {
+            Customer updatedcust = (from i in _context.Customers
+                                   where i.CustomerId == currentCustomer.CustomerId
+                                    select i).FirstOrDefault();
+            currentCustomer = updatedcust;
+            _context.Customers.Update(updatedcust);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
 
+            return updatedcust;
+            }
         public List<Product> ProductsList()
             {
             return _context.Products.Select(x => new Product()
@@ -98,32 +107,27 @@ namespace DL
             }
 
 
-        public Product UpdateProduct(Product prodToUpdate)
+        public Product UpdateProduct(int ProdId)
             {
-            Product updatedprod = (from i in _context.Products
-                                   where i.ProductId == prodToUpdate.ProductId
-                                   select i).FirstOrDefault();
-            updatedprod = prodToUpdate;
-
+            Product updatedprod = _context.Products.FirstOrDefault(x => x.ProductId == ProdId);
+            _context.Products.Update(updatedprod);
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
 
             return updatedprod;
             }
 
-        public void RemoveProduct(Product prodToUpdate)
+        public void RemoveProduct(int ProdId)
             {
-            Product updatedprod = (from i in _context.Products
-                                   where i.ProductId == prodToUpdate.ProductId
-                                   select i).FirstOrDefault();
-            updatedprod = prodToUpdate;
-            _context.Products.Remove(updatedprod);
+            Product prodDelte = _context.Products.FirstOrDefault(x => x.ProductId == ProdId);
+            
+            _context.Products.Remove(prodDelte);
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
             }
-        public List<Product> ProductsListByGenre()
+        public List<Product> ProductsListByGenre(string genre)
             {
-            return _context.Products.Select(x => new Product()
+            return _context.Products.Where(x => x.Genre.Equals(genre)).Select(x => new Product()
                 {
                 ProductName = x.ProductName,
                 ProductId = x.ProductId,
@@ -131,7 +135,7 @@ namespace DL
                 Genre = x.Genre,
                 Description = x.Description
                 }
-            ).OrderBy(x => x.Genre).ToList();
+            ).ToList();
             }
         public Product AddProduct(Product newProduct)
             {
@@ -272,14 +276,8 @@ namespace DL
             _context.ChangeTracker.Clear();
             }
 
-        public void RemoveCustomer(Customer currentCustomer)
-            {
-            throw new NotImplementedException();
-            }
+        
 
-        public Customer UpdateCustomer(Customer currentCustomer)
-            {
-            throw new NotImplementedException();
-            }
+       
         }
     }

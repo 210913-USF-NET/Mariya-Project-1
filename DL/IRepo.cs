@@ -7,21 +7,26 @@ namespace DL
 {
     public interface IRepo
     {
-        List<Customer> GetAllCustomers();
-        List<Customer> FindCustomersByName(string fname, string lname);
         Customer AddCustomer(Customer newCustomer);
-        void RemoveCustomer(Customer currentCustomer);
-        Customer FindOneCustomerById(int custID);
-        Customer FindOneCustomersByUserName(string username);
-        Customer FindOneCustomersByName(string fname, string lname);
-        void CustomerStoreUpdate(int custId, int newStoreID);
+        List<Customer> GetCustomersByName(string fname, string lname);
+        Customer GetOneCustomersByName(string fname, string lname);
+        Customer GetcustbyEmailUsername(string input);
+        Customer GetOneCustomerById(int custID);
+        void RemoveCustomer(int custID);
+        List<Customer> GetAllCustomers();
         Customer UpdateCustomer(Customer currentCustomer);
+
+
+
+
+
+
         List<Product> ProductsList();
-        List<Product> ProductsListByGenre();
+        List<Product> ProductsListByGenre(string genre);
         Product AddProduct(Product newProduct);
         Product GetProduct(int input);
-        Product UpdateProduct(Product prodToUpdate);
-        void RemoveProduct(Product prodToUpdate);
+        Product UpdateProduct(int ProdId);
+        void RemoveProduct(int ProdId);
         List<Inventory> GetInventoryByStoreID(Customer newCustomer);
         List<Inventory> GetInventoryForAdmin(int input);
         void InventoryToUpdate(List<Inventory> items);

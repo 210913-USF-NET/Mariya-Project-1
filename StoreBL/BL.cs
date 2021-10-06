@@ -19,46 +19,50 @@ namespace StoreBL
             //newCustomer.CustomerId = new Guid();
             return _repo.AddCustomer(newCustomer);
             }
-        public List<Customer> FindCustomersByName(string fname, string lname)
+        public List<Customer> GetCustomersByName(string fname, string lname)
             {
-                return _repo.FindCustomersByName(fname, lname);
+                return _repo.GetCustomersByName(fname, lname);
             }
-        public Customer FindOneCustomerById(int custID)
+        public Customer GetOneCustomerById(int custID)
             {
-            return _repo.FindOneCustomerById(custID);
+            return _repo.GetOneCustomerById(custID);
             }
+        public Customer GetOneCustomersByName(string fname, string lname)
+            {
+            return _repo.GetOneCustomersByName(fname, lname);
+            }
+        public Customer GetcustbyEmailUsername(string input)
+            {
+            return _repo.GetcustbyEmailUsername(input);
+            }
+
+        public Customer UpdateCustomer(Customer currentCustomer)
+            {
+            return _repo.UpdateCustomer(currentCustomer);
+            }
+
         public List<Customer> GetAllCustomers()
             {
             return _repo.GetAllCustomers();
             }
-        public void RemoveCustomer(Customer currentCustomer)
+        public void RemoveCustomer(int custID)
             {
-            _repo.RemoveCustomer(currentCustomer);
+            _repo.RemoveCustomer(custID);
             }
-        public void CustomerStoreUpdate(int custId, int newStoreID)
-            {
-             _repo.CustomerStoreUpdate(custId,newStoreID);
-            }
+  
 
         public List<Product> ProductsList()
             {
             return _repo.ProductsList();
             }
 
-        public List<Customer> FindCustomersByName(string qryString)
-            {
-            throw new NotImplementedException();
-            }
 
-        public Customer FindOneCustomersByName(string fname, string lname)
-            {
-            return _repo.FindOneCustomersByName(fname, lname);
-            }
 
-        public List<Product> ProductsListByGenre()
+
+        public List<Product> ProductsListByGenre(string genre)
             {
             
-            return _repo.ProductsListByGenre();
+            return _repo.ProductsListByGenre(genre);
             }
 
         public Product AddProduct(Product newProduct)
@@ -125,24 +129,15 @@ namespace StoreBL
             return _repo.GetInventoryForAdmin(input);
             }
 
-        public Customer FindOneCustomersByUserName(string username)
+ 
+        public Product UpdateProduct(int ProdId)
             {
-            return _repo.FindOneCustomersByUserName(username);
+            return _repo.UpdateProduct(ProdId);
             }
 
-        public Customer UpdateCustomer(Customer currentCustomer)
+        public void RemoveProduct(int ProdId)
             {
-            return _repo.UpdateCustomer(currentCustomer);
-            }
-
-        public Product UpdateProduct(Product prodToUpdate)
-            {
-            return _repo.UpdateProduct(prodToUpdate);
-            }
-
-        public void RemoveProduct(Product prodToUpdate)
-            {
-            _repo.RemoveProduct(prodToUpdate);
+            _repo.RemoveProduct(ProdId);
             }
 
     

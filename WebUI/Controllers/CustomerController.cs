@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Differencing;
 using Models;
 using StoreBL;
 
@@ -47,10 +48,9 @@ namespace WebUI.Controllers
             {
             try
                 {
-                if (ModelState.IsValid)
-                    {
+                
                     _bl.AddCustomer(cust);
-                    }
+                    
                 return RedirectToAction(nameof(Index));
                 }
             catch
@@ -62,27 +62,32 @@ namespace WebUI.Controllers
         // GET: CustomerController/Edit/5
         public ActionResult Edit(int id)
             {
-            return View();
+            Customer toEdit = _bl.GetOneCustomerById(id);
+            return View(toEdit);
             }
 
         // POST: CustomerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Customer cust)
             {
             try
                 {
+              
+                    _bl.UpdateCustomer(cust);
+                    
                 return RedirectToAction(nameof(Index));
                 }
             catch
                 {
-                return View();
+                return RedirectToAction(nameof(Index));
                 }
             }
 
         // GET: CustomerController/Delete/5
         public ActionResult Delete(int id)
             {
+            _bl.RemoveCustomer(id);
             return View();
             }
 
