@@ -147,9 +147,10 @@ namespace WebUI.Controllers
                 else
                     {
                     //TempData["role"] = "notAdmin";
-                    //TempData["name"] = loggedin.FirstName;
+                 Response.Cookies.Append("username", loggedin.FirstName);   
+                //TempData["name"] = loggedin.FirstName;
                     return RedirectToAction("Index", "Home", loggedin);
-                Response.Cookies.Append("username", loggedin.FirstName);
+                
                 //Response.Cookies.Append("userid", loggedin.CustomerId);
                 }
                 }

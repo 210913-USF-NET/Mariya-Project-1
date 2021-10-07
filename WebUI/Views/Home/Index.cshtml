@@ -1,13 +1,13 @@
 ﻿
 @model Models.Product
-@{
 
-    @if (Model == null)
+
+    @*@if (@TempData["CustomerId"] == null)
         {
         Layout = "~/Views/Shared/_Layout.cshtml";
         }
 
-    else if@TempData["CustomerId"]Equals("Admin"))
+    else if@TempData["CustomerId"].Equals("Admin"))
 {
         Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
         }
@@ -15,21 +15,21 @@ else
         {
         Layout = "~/Views/Shared/_LayoutUse.cshtml";
         }
-}
+}*@
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<h1>Welcome to BibliHollow</h1>
+@*<h1>Welcome to BibliHollow</h1>
 <div id="featuredProduct" class="row">
     <div class="col-sm-8">
-        <img alt="Featured Product" src="~/Images/Products/@Model.Product.ImageName" class="img-fluid rounded" />
+        <img alt="Featured Product" src="~/Images/Products/@Model.ImageName" class="img-fluid rounded" />
     </div>
     <div id="featuredProductInfo" class="col-sm-4">
         <div id="productInfo">
-            <h2>@Model.FeaturedProduct.Name</h2>
-            <p class="price">$@string.Format("{0:f}", Model.FeaturedProduct.Price)</p>
-            <p class="description">@Model.FeaturedProduct.Description</p>
+            <h2>@Model.ProductName</h2>
+            <p class="price">$@string.Format("{0:f}", Model.Price)</p>
+            <p class="description">@Model.Description</p>
         </div>
         <div id="callToAction">
             <a class="btn btn-danger order-button" asp-page="/order" asp-route-id="@Model.FeaturedProduct.Id" title="Order @Model.FeaturedProduct.Name">Order Now</a>
@@ -60,4 +60,4 @@ else
         <img src="https://th.bing.com/th/id/R.b53144929aa60362973256e4b03a1eee?rik=eIQliZjW%2bPbZnw&pid=ImgRaw&r=0" alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: right;">
     </div>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+</div>*@
