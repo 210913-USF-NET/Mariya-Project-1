@@ -4,7 +4,6 @@ using Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-/*using Entity = DL.Entities;*/
 using DL;
 
 
@@ -12,7 +11,7 @@ namespace DL
     {
     public class Repo : IRepo
         {
-        private StoreDBContext _context;
+        private  readonly StoreDBContext _context;
         public Repo(StoreDBContext context)
             {
             _context = context;
@@ -82,22 +81,22 @@ namespace DL
                 }).ToList();
 
             }
-        public Customer UpdateCustomer(Customer cust)
+        public Customer UpdateCustomer(Customer currentCustomer)
             {
             Customer updatedcust = new Customer()
                 {
-                CustomerId = cust.CustomerId,
-                FirstName = cust.FirstName,
-                LastName = cust.LastName,
-                UserName = cust.UserName,
-                Password = cust.Password,
-                Email = cust.Email,
-                Street = cust.Street,
-                City = cust.City,
-                State = cust.State,
-                Country = cust.Country,
-                CustomerDefaultStoreID = cust.CustomerDefaultStoreID,
-                IsAdmin = cust.IsAdmin
+                CustomerId = currentCustomer.CustomerId,
+                FirstName = currentCustomer.FirstName,
+                LastName = currentCustomer.LastName,
+                UserName = currentCustomer.UserName,
+                Password = currentCustomer.Password,
+                Email = currentCustomer.Email,
+                Street = currentCustomer.Street,
+                City = currentCustomer.City,
+                State = currentCustomer.State,
+                Country = currentCustomer.Country,
+                CustomerDefaultStoreID = currentCustomer.CustomerDefaultStoreID,
+                IsAdmin = currentCustomer.IsAdmin
                 };
             updatedcust = _context.Customers.Update(updatedcust).Entity;
             _context.SaveChanges();
@@ -260,9 +259,9 @@ namespace DL
             _context.SaveChanges();
             }
 
-        public List<Order> ListOfOrdersByCust(Customer cust)
+        public List<Order> ListOfOrdersByCust(Customer currentCustomer)
             {
-            return _context.Orders.Where(x => x.OrderCustomerID == cust.CustomerId).Select(r => new Models.Order()).ToList();
+            return _context.Orders.Where(x => x.OrderCustomerID == currentCustomer.CustomerId).Select(r => new Models.Order()).ToList();
             }
         public List<LineItem> LineItemsList()
             {

@@ -113,9 +113,10 @@ namespace WebUI.Controllers
             {
             try
                 {
-
+                
                 cust = null;
-
+                TempData["CustomerId"] = null;
+                TempData.Remove("CustomerId");
                 return RedirectToAction("Index", "Home");
                 }
             catch
@@ -133,25 +134,24 @@ namespace WebUI.Controllers
                 Customer loggedin = _bl.VerifyLogin(cust.UserName, cust.Password);
             if (loggedin == null)
                 {
-                
+                TempData["CustomerId"] = null;
                 return RedirectToAction("Create");
                 }
             else if (loggedin.UserName =="Admin")
                     {
-                TempData["CustomerId"] = cust.UserName;
-                Response.Cookies.Append("username", "Admin");
-                //Response.Cookies.Append("userid", 1);
-                //TempData["name"] = loggedin.FirstName;
+                TempData["CustomerId"] = cust.CustomerId.ToString();
+                TempData.Keep("CustomerId");
+              
                 return RedirectToAction("Index", "Home", loggedin);
                     }
                 else
                     {
-                    //TempData["role"] = "notAdmin";
-                 Response.Cookies.Append("username", loggedin.FirstName);   
-                //TempData["name"] = loggedin.FirstName;
+                
+                TempData["CustomerId"] = cust.CustomerId.ToString();
+                TempData.Keep("CustomerId");
+              
                     return RedirectToAction("Index", "Home", loggedin);
                 
-                //Response.Cookies.Append("userid", loggedin.CustomerId);
                 }
                 }
         }

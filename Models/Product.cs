@@ -12,9 +12,6 @@ namespace Models
         public List<Inventory> Inventories { get; set; }
         public string ImageName { get; set; }
 
-        //public override string ToString()
-        //{
-        //    return $"Product Name: {this.Name}\nProduct Id: {this.ProductId} Product Price: {this.Price:C}\nProduct Genre: {this.Genre}\nProduct Description: {this.Description}\n";
-        //}
+       
         }
 }

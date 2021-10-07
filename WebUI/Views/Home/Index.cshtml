@@ -2,24 +2,7 @@
 @model WebUI.Models.ProductVM
 
 
-    @if (@TempData["CustomerId"] == null)
-        {
-        Layout = "~/Views/Shared/_Layout.cshtml";
-        }
-
-    else if(@TempData["CustomerId"].ToString() == "Admin")
-{
-        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-        }
-else 
-        {
-        Layout = "~/Views/Shared/_LayoutUse.cshtml";
-        }
-}
-@{
-    ViewData["Title"] = "Home Page";
-}
-
+  
 <h1>Welcome to BibliHollow</h1>
 
    
