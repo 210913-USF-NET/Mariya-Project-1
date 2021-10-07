@@ -46,9 +46,10 @@ namespace DL
             {
             return _context.Customers.Where(u => u.FirstName.ToLower().Trim().Contains(fname.ToLower().Trim()) && u.LastName.ToLower().Trim().Contains(lname.ToLower().Trim())).FirstOrDefault();
             }
-        public Customer GetcustbyEmailUsername(string input)
+        public Customer VerifyLogin(string user, string pass)
             {
-            return _context.Customers.Where(u => u.UserName.ToLower().Trim().Contains(input.ToLower().Trim()) || u.Email.ToLower().Trim().Equals(input.ToLower().Trim())).FirstOrDefault();
+            Customer loggIn = _context.Customers.FirstOrDefault(u => u.UserName == user && u.Password == pass);
+            return loggIn;
             }
 
         public Customer GetOneCustomerById(int custID)
@@ -57,8 +58,8 @@ namespace DL
             }
         public void RemoveCustomer(int custID)
             {
-            Customer toDelete = _context.Customers.FirstOrDefault(x => x.CustomerId == custID);
-            _context.Customers.Remove(toDelete);
+            
+            _context.Customers.Remove(GetOneCustomerById(custID));
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
             }
@@ -81,13 +82,24 @@ namespace DL
                 }).ToList();
 
             }
-        public Customer UpdateCustomer(Customer currentCustomer)
+        public Customer UpdateCustomer(Customer cust)
             {
-            Customer updatedcust = (from i in _context.Customers
-                                   where i.CustomerId == currentCustomer.CustomerId
-                                    select i).FirstOrDefault();
-            currentCustomer = updatedcust;
-            _context.Customers.Update(updatedcust);
+            Customer updatedcust = new Customer()
+                {
+                CustomerId = cust.CustomerId,
+                FirstName = cust.FirstName,
+                LastName = cust.LastName,
+                UserName = cust.UserName,
+                Password = cust.Password,
+                Email = cust.Email,
+                Street = cust.Street,
+                City = cust.City,
+                State = cust.State,
+                Country = cust.Country,
+                CustomerDefaultStoreID = cust.CustomerDefaultStoreID,
+                IsAdmin = cust.IsAdmin
+                };
+            updatedcust = _context.Customers.Update(updatedcust).Entity;
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
 
@@ -95,22 +107,33 @@ namespace DL
             }
         public List<Product> ProductsList()
             {
-            return _context.Products.Select(x => new Product()
+            return _context.Products.Select(prod => new Product()
                 {
-                ProductName = x.ProductName,
-                ProductId = x.ProductId,
-                Price = x.Price,
-                Genre = x.Genre,
-                Description = x.Description
-                }
-            ).ToList();
+                ProductId = prod.ProductId,
+                ProductName = prod.ProductName,
+                Price = prod.Price,
+                Genre = prod.Genre,
+                Description = prod.Description
+                }).ToList();
             }
 
-
-        public Product UpdateProduct(int ProdId)
+        public Product GetOneProduct(int ProdId)
             {
-            Product updatedprod = _context.Products.FirstOrDefault(x => x.ProductId == ProdId);
-            _context.Products.Update(updatedprod);
+            return _context.Products.FirstOrDefault(x => x.ProductId == ProdId);
+            }
+
+        public Product UpdateProduct(Product prod)
+            {
+            Product updatedprod = new Product()
+                {
+                ProductId = prod.ProductId,
+                ProductName = prod.ProductName,
+                Price = prod.Price,
+                Genre = prod.Genre,
+                Description = prod.Description
+                };
+
+            updatedprod = _context.Products.Update(updatedprod).Entity;
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
 
@@ -119,9 +142,7 @@ namespace DL
 
         public void RemoveProduct(int ProdId)
             {
-            Product prodDelte = _context.Products.FirstOrDefault(x => x.ProductId == ProdId);
-            
-            _context.Products.Remove(prodDelte);
+            _context.Products.Remove(GetOneProduct(ProdId));
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
             }
@@ -146,35 +167,62 @@ namespace DL
 
             return newProduct;
             }
-
-        /// Returns model store by inputting customer default store
-        /// </summary>
-        /// <param name="cust"> obj that is passed around while still logged in</param>
-        /// <returns>StoreFront Obj</returns>
-        public StoreFront GetMyStore(Customer cust)
+        public List<StoreFront> GetAllStoreFronts()
             {
-            StoreFront myStore = _context.StoreFronts.FirstOrDefault(x => x.StoreFrontId == cust.CustomerDefaultStoreID);
-            return new StoreFront();
+            return _context.StoreFronts.Select(x => new StoreFront()
+                {
+                StoreFrontId = x.StoreFrontId,
+                StoreName = x.StoreName,
+                StoreStreet = x.StoreStreet,
+                StoreCity = x.StoreCity,
+                StoreState = x.StoreState,
+                StoreCountry = x.StoreCountry
+                }).ToList();
             }
-        /// <summary>
-        /// Returns list of Customers by using customer obj passed in getting list where cust store == inventory store
-        /// </summary>
-        /// <param name="newCustomer">bj that is passed around while still logged in</param>
-        /// <returns>List of inventory items by customer default store</returns>
+        public StoreFront GetOneStoreFront(int id)
+            {
+            return _context.StoreFronts.FirstOrDefault(x => x.StoreFrontId == id);
+            }
+        public StoreFront AddStoreFront(StoreFront store)
+            {
+            store = _context.Add(store).Entity;
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+
+            return store;
+            }
+
+        public StoreFront UpdateStoreFront(StoreFront store)
+            {
+            StoreFront storetoUpdate = new StoreFront()
+                {
+                StoreFrontId = store.StoreFrontId,
+                StoreName = store.StoreName,
+                StoreStreet = store.StoreStreet,
+                StoreCity = store.StoreCity,
+                StoreState = store.StoreState,
+                StoreCountry = store.StoreCountry
+                };
+             storetoUpdate = _context.Update(storetoUpdate).Entity;
+             _context.SaveChanges();
+             _context.ChangeTracker.Clear();
+
+            return storetoUpdate;
+            }
+
+        public void RemoveStoreFront(int id)
+            {
+            _context.Remove(GetOneStoreFront(id));
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            }
+
         public List<Inventory> GetInventoryByStoreID(Customer newCustomer)
             {
             return _context.Inventories.Where(y => y.InvStoreID == newCustomer.CustomerDefaultStoreID).Select(i => new Inventory()).ToList();
             }
-        public List<StoreFront> GetStoreFronts()
-            {
-            return _context.StoreFronts.Select(r => new StoreFront()
-                ).ToList();
-            }
-        public Product GetProduct(int input)
-            {
-            Product myProduct = _context.Products.FirstOrDefault(x => x.ProductId == input);
-            return new Models.Product();
-            }
+
+
         public Order AddNewOrder(Order newOrd)
             {
             newOrd = _context.Add(newOrd).Entity;
@@ -246,35 +294,8 @@ namespace DL
             throw new NotImplementedException();
             }
 
-        public List<StoreFront> GetAllStoreFronts()
-            {
-            throw new NotImplementedException();
-            }
 
-        public StoreFront AddStoreFront(StoreFront store)
-            {
-            store = _context.Add(store).Entity;
-            _context.SaveChanges();
-            _context.ChangeTracker.Clear();
 
-            return store;
-            }
-
-        public StoreFront UpdateStoreFront(StoreFront store)
-            {
-            store = _context.Update(store).Entity;
-            _context.SaveChanges();
-            _context.ChangeTracker.Clear();
-
-            return store;
-            }
-
-        public void RemoveStoreFront(StoreFront store)
-            {
-            store = _context.Remove(store).Entity;
-            _context.SaveChanges();
-            _context.ChangeTracker.Clear();
-            }
 
         
 

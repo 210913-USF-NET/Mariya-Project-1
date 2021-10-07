@@ -9,42 +9,40 @@ using StoreBL;
 
 namespace WebUI.Controllers
     {
-    public class ProductController : Controller
+    public class StorefrontController : Controller
         {
         private IBL _bl;
-        public ProductController(IBL bl)
+        public StorefrontController(IBL bl)
             {
             _bl = bl;
             }
-        // GET: HomeController1
+        // GET: StorefrontController
         public ActionResult Index()
             {
-            List<Product> allProd = _bl.ProductsList();
-            return View(allProd);
+            List<StoreFront> allStore = _bl.GetAllStoreFronts();
+            return View(allStore);
             }
 
-        // GET: HomeController1/Details/5
+        // GET: StorefrontController/Details/5
         public ActionResult Details(int id)
             {
             return View();
             }
 
-        // GET: HomeController1/Create
+        // GET: StorefrontController/Create
         public ActionResult Create()
             {
             return View();
             }
 
-        // POST: HomeController1/Create
+        // POST: StorefrontController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product prod)
+        public ActionResult Create(StoreFront store)
             {
             try
                 {
-                
-                    _bl.AddProduct(prod);
-                    
+                _bl.AddStoreFront(store);
                 return RedirectToAction(nameof(Index));
                 }
             catch
@@ -53,43 +51,44 @@ namespace WebUI.Controllers
                 }
             }
 
-        // GET: HomeController1/Edit/5
+        // GET: StorefrontController/Edit/5
         public ActionResult Edit(int id)
             {
-            Product prodToEdit = _bl.GetOneProduct(id);
-            return View(prodToEdit);
+            StoreFront toedit = _bl.GetOneStoreFront(id);
+            return View(toedit);
             }
 
-        // POST: HomeController1/Edit/5
+        // POST: StorefrontController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product prod)
+        public ActionResult Edit(StoreFront store)
             {
             try
                 {
-                _bl.UpdateProduct(prod);
+                _bl.UpdateStoreFront(store);
                 return RedirectToAction(nameof(Index));
                 }
             catch
                 {
-                return RedirectToAction(nameof(Index));
+                return View();
                 }
             }
 
-        // GET: HomeController1/Delete/5
+        // GET: StorefrontController/Delete/5
         public ActionResult Delete(int id)
             {
-            _bl.RemoveProduct(id);
-            return View();
+            StoreFront toedit = _bl.GetOneStoreFront(id);
+            return View(toedit);
             }
 
-        // POST: HomeController1/Delete/5
+        // POST: StorefrontController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, StoreFront store)
             {
             try
                 {
+                _bl.RemoveStoreFront(id);
                 return RedirectToAction(nameof(Index));
                 }
             catch

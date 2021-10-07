@@ -31,9 +31,9 @@ namespace StoreBL
             {
             return _repo.GetOneCustomersByName(fname, lname);
             }
-        public Customer GetcustbyEmailUsername(string input)
+        public Customer VerifyLogin(string user, string pass)
             {
-            return _repo.GetcustbyEmailUsername(input);
+            return _repo.VerifyLogin(user,pass);
             }
 
         public Customer UpdateCustomer(Customer currentCustomer)
@@ -74,25 +74,42 @@ namespace StoreBL
         //    return ShoppingCart.MyCart.Sum(x => x.Key.Price);
         //    }
 
-        public Product GetProduct(int input)
+        public Product GetOneProduct(int ProdId)
             {
-            return _repo.GetProduct(input);
+            return _repo.GetOneProduct(ProdId);
             }
         public List<Inventory> GetInventoryByStoreID(Customer newCustomer)
             {
             return _repo.GetInventoryByStoreID(newCustomer);
             }
 
-        public StoreFront GetMyStore(Customer cust)
-            {
-            return _repo.GetMyStore(cust);
-            }
 
         public List<StoreFront> GetAllStoreFronts()
             {
             return _repo.GetAllStoreFronts();
             }
-    
+        public StoreFront AddStoreFront(StoreFront store)
+            {
+            return _repo.AddStoreFront(store);
+            }
+
+
+
+        public void RemoveStoreFront(int ID)
+            {
+            _repo.RemoveStoreFront(ID);
+            }
+
+
+        public StoreFront GetOneStoreFront(int id)
+            {
+            return _repo.GetOneStoreFront(id);
+            }
+
+        public StoreFront UpdateStoreFront(StoreFront store)
+            {
+            return _repo.UpdateStoreFront(store);
+            }
 
         public Order AddNewOrder(Order newOrd)
             {
@@ -130,9 +147,9 @@ namespace StoreBL
             }
 
  
-        public Product UpdateProduct(int ProdId)
+        public Product UpdateProduct(Product prod)
             {
-            return _repo.UpdateProduct(ProdId);
+            return _repo.UpdateProduct(prod);
             }
 
         public void RemoveProduct(int ProdId)
@@ -147,24 +164,6 @@ namespace StoreBL
             }
 
 
-        public StoreFront AddStoreFront(StoreFront store)
-            {
-            return _repo.AddStoreFront(store);
-            }
 
-        public StoreFront UpdateStoreFront(int ID)
-            {
-            throw new NotImplementedException();
-            }
-
-        public void RemoveStoreFront(int ID)
-            {
-            throw new NotImplementedException();
-            }
-
-        public Product AddProduct(int input)
-            {
-            throw new NotImplementedException();
-            }
         }
     }

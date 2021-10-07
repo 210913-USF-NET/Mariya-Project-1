@@ -87,17 +87,18 @@ namespace WebUI.Controllers
         // GET: CustomerController/Delete/5
         public ActionResult Delete(int id)
             {
-            _bl.RemoveCustomer(id);
-            return View();
+            Customer toEdit = _bl.GetOneCustomerById(id);
+            return View(toEdit);
             }
 
         // POST: CustomerController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Customer cust)
             {
             try
                 {
+                _bl.RemoveCustomer(id);
                 return RedirectToAction(nameof(Index));
                 }
             catch
@@ -105,5 +106,52 @@ namespace WebUI.Controllers
                 return View();
                 }
             }
+        // POST: CustomerController/Logout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Logout(Customer cust)
+            {
+            try
+                {
+
+                cust = null;
+
+                return RedirectToAction("Index", "Home");
+                }
+            catch
+                {
+                return RedirectToAction("Index", "Home");
+                }
+            }
+        // POST: CustomerController/Logout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(Customer cust)
+            {
+
+            
+                Customer loggedin = _bl.VerifyLogin(cust.UserName, cust.Password);
+            if (loggedin == null)
+                {
+                
+                return RedirectToAction("Create");
+                }
+            else if (loggedin.UserName =="Admin")
+                    {
+                TempData["CustomerId"] = cust.UserName;
+                Response.Cookies.Append("username", "Admin");
+                //Response.Cookies.Append("userid", 1);
+                //TempData["name"] = loggedin.FirstName;
+                return RedirectToAction("Index", "Home", loggedin);
+                    }
+                else
+                    {
+                    //TempData["role"] = "notAdmin";
+                    //TempData["name"] = loggedin.FirstName;
+                    return RedirectToAction("Index", "Home", loggedin);
+                Response.Cookies.Append("username", loggedin.FirstName);
+                //Response.Cookies.Append("userid", loggedin.CustomerId);
+                }
+                }
         }
     }

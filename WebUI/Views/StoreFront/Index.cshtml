@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Models.StoreFront>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StoreFrontId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoreName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoreStreet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoreCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoreState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoreCountry)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoreFrontId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoreName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoreStreet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoreCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoreState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoreCountry)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id= item.StoreFrontId }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.StoreFrontId})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

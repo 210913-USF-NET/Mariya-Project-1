@@ -25,6 +25,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Customer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="StoreFront" asp-action="Index">Stores</a>
+                        </li>
+                        <li class="nav-item">
                             <form class="navbar-form navbar-left" action="/action_page.php">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Search Books">
@@ -36,12 +42,10 @@
                             </form>
                         </li>
                     </ul>
-
+                    
                     <ul class="nav navbar-nav navbar-right">
-                        <li>@TempData["name"].ToString();</li>
-                        <li><a asp-area="" asp-controller="Customer" asp-action="ShoppingCart"> Start Shopping </a></li>
-                        <li><a asp-area="" asp-controller="Customer" asp-action="Logout">| Logout </a></li>
-
+                        <li><a asp-area="" asp-controller="Customer" asp-action="Create">Sign Up | </a></li>
+                        <li><a asp-area="" asp-controller="Customer" asp-action="login">| Login </a></li>
                     </ul>
                 </div>
             </div>
