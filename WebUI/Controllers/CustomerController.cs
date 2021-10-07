@@ -106,6 +106,11 @@ namespace WebUI.Controllers
                 return View();
                 }
             }
+        public ActionResult Logout(int id)
+            {
+            Customer toEdit = _bl.GetOneCustomerById(id);
+            return View(toEdit);
+            }
         // POST: CustomerController/Logout
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -116,7 +121,7 @@ namespace WebUI.Controllers
                 
                 cust = null;
                 TempData["CustomerId"] = null;
-                TempData.Remove("CustomerId");
+                TempData.Keep("CustomerId");
                 return RedirectToAction("Index", "Home");
                 }
             catch
@@ -137,19 +142,19 @@ namespace WebUI.Controllers
                 TempData["CustomerId"] = null;
                 return RedirectToAction("Create");
                 }
-            else if (loggedin.UserName =="Admin")
+            else if (loggedin.IsAdmin)
                     {
-                TempData["CustomerId"] = cust.CustomerId.ToString();
-                TempData.Keep("CustomerId");
+                TempData["CustomerId"] = loggedin.UserName;
+                TempData.Keep("TempDataProperty-FristName");
               
                 return RedirectToAction("Index", "Home", loggedin);
                     }
                 else
                     {
                 
-                TempData["CustomerId"] = cust.CustomerId.ToString();
-                TempData.Keep("CustomerId");
-              
+                TempData["CustomerId"] = loggedin.FirstName;
+                TempData.Keep("TempDataProperty-FristName");
+                
                     return RedirectToAction("Index", "Home", loggedin);
                 
                 }

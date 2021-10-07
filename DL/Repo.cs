@@ -48,12 +48,55 @@ namespace DL
         public Customer VerifyLogin(string user, string pass)
             {
             Customer loggIn = _context.Customers.FirstOrDefault(u => u.UserName == user && u.Password == pass);
-            return loggIn;
+            return new Customer()
+                {
+                CustomerId = loggIn.CustomerId,
+                FirstName = loggIn.FirstName,
+                LastName = loggIn.LastName,
+                UserName = loggIn.UserName,
+                Password = loggIn.Password,
+                Email = loggIn.Email,
+                Street = loggIn.Street,
+                City = loggIn.City,
+                State = loggIn.State,
+                Country = loggIn.Country,
+                CustomerDefaultStoreID = loggIn.CustomerDefaultStoreID,
+                IsAdmin = loggIn.IsAdmin,
+                OrdersList = (List<Order>)loggIn.OrdersList.Select(x => new Order()
+                    {
+                    OrderId = x.OrderId,
+                    OrderCustomerID = x.OrderCustomerID,
+                    OrderStoreID = x.OrderStoreID,
+                    OrderTotal = x.OrderTotal
+                    })
+                };
             }
 
         public Customer GetOneCustomerById(int custID)
             {
-            return _context.Customers.FirstOrDefault(u => u.CustomerId == custID);
+            Customer customertoView =_context.Customers.Include(x => x.OrdersList).FirstOrDefault(u => u.CustomerId == custID);
+            return new Customer()
+                {
+                CustomerId = customertoView.CustomerId,
+                FirstName = customertoView.FirstName,
+                LastName = customertoView.LastName,
+                UserName = customertoView.UserName,
+                Password = customertoView.Password,
+                Email = customertoView.Email,
+                Street = customertoView.Street,
+                City = customertoView.City,
+                State = customertoView.State,
+                Country = customertoView.Country,
+                CustomerDefaultStoreID = customertoView.CustomerDefaultStoreID,
+                IsAdmin = customertoView.IsAdmin,
+                OrdersList = (List<Order>)customertoView.OrdersList.Select(x => new Order()
+                    {
+                    OrderId = x.OrderId,
+                    OrderCustomerID = x.OrderCustomerID,
+                    OrderStoreID = x.OrderStoreID,
+                    OrderTotal = x.OrderTotal
+                    })
+                };
             }
         public void RemoveCustomer(int custID)
             {

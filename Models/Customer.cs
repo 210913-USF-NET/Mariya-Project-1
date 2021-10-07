@@ -7,7 +7,7 @@ namespace Models
 {
     public class Customer
     {
-        //deost that create new Guid?
+      
         public Customer(){
             this.OrdersList = new List<Order>();
         }

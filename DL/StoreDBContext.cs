@@ -21,6 +21,5 @@ namespace DL
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<StoreFront> StoreFronts { get; set; }
-        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         }
     }

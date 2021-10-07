@@ -9,9 +9,7 @@ namespace WebUI.Models
     {
     public class HomePages
         {
-        public List<string> Genre { get; set; }
-        public List<Product> Products { get; set; } = new List<Product>();
-        
+       
         
         }
     }

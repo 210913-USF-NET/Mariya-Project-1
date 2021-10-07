@@ -1,7 +1,4 @@
 ﻿
-
-
-
     @if (@TempData["CustomerId"] == null)
         {
         Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,31 +17,10 @@ else
     ViewData["Title"] = "Home Page";
 }
 
-<h1>Welcome to BibliHollow</h1>
-@*<div id="featuredProduct" class="row">
-   
-<div id="productsWrapper" class="row">
-    @foreach (var genre in M)
-        {
-        <div class="col-sm-3">
-            <a asp-page="/order" asp-route-id="@product.Id" title="Order @product.Name">
-                <div class="productInfo">
-                    <h3>@product.Name</h3>
-                    <img class="product-image img-fluid img-thumbnail" src="~/Images/Products/Thumbnails/@product.ImageName" alt="Image of @product.Name" />
-                    <p class="description">@product.Description</p>
-                </div>
-            </a>
-            <div class="action">
-                <p class="price float-left">$@string.Format("{0:f}", product.Price)</p>
-                <a class="btn btn-sm btn-danger order-button float-right" asp-page="/order" asp-route-id="@product.Id" title="Order @product.Name">Order Now</a>
-            </div>
-        </div>
-        }
-</div>*@
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Welcome to BibliHollow</h1>
     <div class="col-sm-6 px-0 d-none d-sm-block">
         <img src="https://th.bing.com/th/id/R.b53144929aa60362973256e4b03a1eee?rik=eIQliZjW%2bPbZnw&pid=ImgRaw&r=0" alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: right;">
     </div>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+   
 </div>
