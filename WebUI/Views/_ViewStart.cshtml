@@ -1,18 +1,17 @@
-﻿@model Models.Customer
+﻿@if (@TempData["CustomerId"] == null)
+    {
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 
+else if (@TempData["CustomerId"].ToString() == "Admin")
+    {
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+else
+    {
+    Layout = "~/Views/Shared/_LayoutUse.cshtml";
+    }
+}
 @{
-    
-    @if (Model == null)
-        {
-        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-        }
-
-    else if (Model.UserName.Equals("Admin"))
-        {
-        Layout = "~/Views/Shared/_Layout.cshtml";
-        }
-    else
-        {
-        Layout = "~/Views/Shared/_LayoutUse.cshtml";
-        }
+    ViewData["Title"] = "Home Page";
 }
