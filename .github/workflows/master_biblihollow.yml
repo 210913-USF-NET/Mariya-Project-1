@@ -49,7 +49,7 @@ jobs:
       - name: Restore
         run: dotnet restore
       - name: Test
-        run: dotnet test  ${{env.DOTNET_ROOT}}/Test --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        run: dotnet test  ${{env.DOTNET_ROOT}}\Test --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
 
         
