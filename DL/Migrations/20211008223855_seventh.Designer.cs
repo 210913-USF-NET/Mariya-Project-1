@@ -3,36 +3,23 @@ using System;
 using DL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DL.Migrations
 {
     [DbContext(typeof(StoreDBContext))]
-    partial class StoreDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211008223855_seventh")]
+    partial class seventh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-            modelBuilder.Entity("InventoryProduct", b =>
-                {
-                    b.Property<int>("InventoriesInventoryID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("InventoriesInventoryID", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("InventoryProduct");
-                });
 
             modelBuilder.Entity("Models.Customer", b =>
                 {
@@ -101,6 +88,9 @@ namespace DL.Migrations
                     b.Property<int>("InvStoreID")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
@@ -108,6 +98,8 @@ namespace DL.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("InventoryID");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("StoreFrontId");
 
@@ -234,26 +226,17 @@ namespace DL.Migrations
                     b.ToTable("StoreFronts");
                 });
 
-            modelBuilder.Entity("InventoryProduct", b =>
-                {
-                    b.HasOne("Models.Inventory", null)
-                        .WithMany()
-                        .HasForeignKey("InventoriesInventoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Models.Inventory", b =>
                 {
+                    b.HasOne("Models.Product", "Product")
+                        .WithMany("Inventories")
+                        .HasForeignKey("ProductId");
+
                     b.HasOne("Models.StoreFront", "StoreFront")
                         .WithMany("Inventories")
                         .HasForeignKey("StoreFrontId");
+
+                    b.Navigation("Product");
 
                     b.Navigation("StoreFront");
                 });
@@ -295,6 +278,11 @@ namespace DL.Migrations
             modelBuilder.Entity("Models.Order", b =>
                 {
                     b.Navigation("LineItems");
+                });
+
+            modelBuilder.Entity("Models.Product", b =>
+                {
+                    b.Navigation("Inventories");
                 });
 
             modelBuilder.Entity("Models.StoreFront", b =>

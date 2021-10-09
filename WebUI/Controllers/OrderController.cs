@@ -5,40 +5,33 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using StoreBL;
 
 namespace WebUI.Controllers
     {
-    public class InventoryController : Controller
+    public class OrderController : Controller
         {
-        private readonly IBL _bl;
-        public InventoryController(IBL bl)
+        // GET: OrderController
+        public ActionResult Index()
             {
-            _bl = bl;
-            }
-        // GET: InventoryController
-        public ActionResult Index(Customer cust)
-            {
-            List<Inventory> myInventory = _bl.GetInventoryByStoreID(cust);
             return View();
             }
 
-        // GET: InventoryController/Details/5
+        // GET: OrderController/Details/5
         public ActionResult Details(int id)
             {
             return View();
             }
 
-        // GET: InventoryController/Create
-        public ActionResult Create()
+        // GET: OrderController/Create
+        public ActionResult Create(int custId, List<int> lineId)
             {
             return View();
             }
 
-        // POST: InventoryController/Create
+        // POST: OrderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Customer customer, List<LineItem> lineItems)
             {
             try
                 {
@@ -50,13 +43,13 @@ namespace WebUI.Controllers
                 }
             }
 
-        // GET: InventoryController/Edit/5
+        // GET: OrderController/Edit/5
         public ActionResult Edit(int id)
             {
             return View();
             }
 
-        // POST: InventoryController/Edit/5
+        // POST: OrderController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -71,13 +64,13 @@ namespace WebUI.Controllers
                 }
             }
 
-        // GET: InventoryController/Delete/5
+        // GET: OrderController/Delete/5
         public ActionResult Delete(int id)
             {
             return View();
             }
 
-        // POST: InventoryController/Delete/5
+        // POST: OrderController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

@@ -9,39 +9,41 @@ using StoreBL;
 
 namespace WebUI.Controllers
     {
-    public class InventoryController : Controller
+    public class LineItemController : Controller
         {
         private readonly IBL _bl;
-        public InventoryController(IBL bl)
+        public LineItemController(IBL bl)
             {
             _bl = bl;
             }
-        // GET: InventoryController
-        public ActionResult Index(Customer cust)
+        // GET: LineItemController
+        public ActionResult Index(int id)
             {
-            List<Inventory> myInventory = _bl.GetInventoryByStoreID(cust);
-            return View();
+            List<LineItem> lineItems = _bl.LineItemsListByOrderID(id);
+            return View(lineItems);
             }
 
-        // GET: InventoryController/Details/5
+        // GET: LineItemController/Details/5
         public ActionResult Details(int id)
             {
-            return View();
+           LineItem item = _bl.GetLineItemDetailsbyId(id);
+            return View(item);
             }
 
-        // GET: InventoryController/Create
-        public ActionResult Create()
+        // GET: LineItemController/Create
+        public ActionResult Create(int id)
             {
             return View();
             }
 
-        // POST: InventoryController/Create
+        // POST: LineItemController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(LineItem lineItem, int id)
             {
             try
                 {
+                _bl.AddLineItem(lineItem, id);
                 return RedirectToAction(nameof(Index));
                 }
             catch
@@ -50,19 +52,21 @@ namespace WebUI.Controllers
                 }
             }
 
-        // GET: InventoryController/Edit/5
+        // GET: LineItemController/Edit/5
         public ActionResult Edit(int id)
             {
-            return View();
+            List<LineItem> linelist = _bl.LineItemsListByOrderID(id);
+            return View(linelist);
             }
 
-        // POST: InventoryController/Edit/5
+        // POST: LineItemController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(LineItem lineItem)
             {
             try
                 {
+
                 return RedirectToAction(nameof(Index));
                 }
             catch
@@ -71,13 +75,13 @@ namespace WebUI.Controllers
                 }
             }
 
-        // GET: InventoryController/Delete/5
+        // GET: LineItemController/Delete/5
         public ActionResult Delete(int id)
             {
             return View();
             }
 
-        // POST: InventoryController/Delete/5
+        // POST: LineItemController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

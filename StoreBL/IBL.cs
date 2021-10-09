@@ -36,15 +36,18 @@ namespace StoreBL
         void InventoryToUpdate(List<Inventory> items);
         void InventoryToRemove(List<Inventory> items);
 
-
+        LineItem AddLineItem(LineItem item, int id);
+        List<LineItem> LineItemsListByOrderID(int orderId);
+        LineItem UpdateLineItem(LineItem lineItem);
+        LineItem GetLineItemDetailsbyId(int lineID);
 
         Order AddNewOrder(Order newOrd);
-        void AddLineItems(List<LineItem> items);
+
         List<Order> ListOfOrdersByCust(Customer cust);
         List<Order> ListOrder();
-        List<LineItem> LineItemsList();
+        
 
-       
+
         ///shopping cart view list option? or add and remove options for shopping cart here?
         ///to add itemst to shoppinhg cart use key.product Id= int input to prod id
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
 using WebUI.Models;
 
 namespace WebUI.Controllers
@@ -19,7 +20,7 @@ namespace WebUI.Controllers
           
             }
 
-        public IActionResult Index()
+        public IActionResult Index(Customer customer)
             {
             return View();
             }

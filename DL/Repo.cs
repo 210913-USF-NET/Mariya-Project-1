@@ -120,7 +120,14 @@ namespace DL
                 State = x.State,
                 Country = x.Country,
                 CustomerDefaultStoreID = x.CustomerDefaultStoreID,
-                IsAdmin = x.IsAdmin
+                IsAdmin = x.IsAdmin,
+                OrdersList = (List<Order>)x.OrdersList.Select(x => new Order()
+                    {
+                    OrderId = x.OrderId,
+                    OrderCustomerID = x.OrderCustomerID,
+                    OrderStoreID = x.OrderStoreID,
+                    OrderTotal = x.OrderTotal
+                    })
                 }).ToList();
 
             }
@@ -194,6 +201,7 @@ namespace DL
                 {
                 ProductName = x.ProductName,
                 ProductId = x.ProductId,
+                ProductAuthor = x.ProductAuthor,
                 Price = x.Price,
                 Genre = x.Genre,
                 Description = x.Description
@@ -261,10 +269,58 @@ namespace DL
 
         public List<Inventory> GetInventoryByStoreID(Customer newCustomer)
             {
-            return _context.Inventories.Where(y => y.InvStoreID == newCustomer.CustomerDefaultStoreID).Select(i => new Inventory()).ToList();
+            return _context.Inventories.Where(y => y.InvStoreID == newCustomer.CustomerDefaultStoreID).ToList();
             }
 
 
+        public List<LineItem> LineItemsListByOrderID(int orderID)
+            {
+            return _context.LineItems.Where(i => i.LineOrderID == orderID).Select(i => new LineItem()).ToList();
+            }
+        public LineItem GetLineItemDetailsbyId(int lineitemID)
+            {
+            return _context.LineItems.FirstOrDefault(i => i.LineItemId == lineitemID);
+            }
+        public LineItem AddLineItem(LineItem item, int id)
+            {
+            LineItem linetoadd = new LineItem()
+                {
+                LineItemId = item.LineItemId,
+                LineOrderID = id,
+                LineProductID = item.LineProductID,
+                Quantity = item.Quantity,
+                StoreId = item.StoreId
+                };
+            linetoadd = _context.Add(linetoadd).Entity;
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            return linetoadd;
+            }
+        public LineItem UpdateLineItem(LineItem lineItem)
+            {
+            LineItem linetoUpdate = new LineItem()
+                {
+                LineItemId = lineItem.LineItemId,
+                LineOrderID = lineItem.LineOrderID,
+                LineProductID = lineItem.LineProductID,
+                StoreId = lineItem.StoreId,
+                Quantity = lineItem.Quantity,
+                };
+            linetoUpdate = _context.Update(linetoUpdate).Entity;
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+
+            return linetoUpdate;
+            }
+        public List<Order> GetListOrderbyCustID(int id)
+            {
+            return _context.Orders.Where(x => x.OrderCustomerID == id).Select(r => new Order()).ToList();
+            }
+
+        public List<Order> ListOrder()
+            {
+            return _context.Orders.Select(r => new Order()).ToList();
+            }
         public Order AddNewOrder(Order newOrd)
             {
             newOrd = _context.Add(newOrd).Entity;
@@ -292,27 +348,11 @@ namespace DL
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
             }
-        public void AddLineItems(List<LineItem> items)
-            {
-            foreach (LineItem i in items)
-                {
-                items = _context.Add(items).Entity;
-                }
 
-            _context.SaveChanges();
-            }
 
         public List<Order> ListOfOrdersByCust(Customer currentCustomer)
             {
             return _context.Orders.Where(x => x.OrderCustomerID == currentCustomer.CustomerId).Select(r => new Models.Order()).ToList();
-            }
-        public List<LineItem> LineItemsList()
-            {
-            return _context.LineItems.Select(i => new LineItem()).ToList();
-            }
-        public List<Order> ListOrder()
-            {
-            return _context.Orders.Select(r => new Order()).ToList();
             }
 
 

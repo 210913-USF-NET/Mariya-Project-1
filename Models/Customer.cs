@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Models
 {
+    [Serializable]
     public class Customer
     {
       
@@ -28,12 +29,15 @@ namespace Models
         [TempData]
         public int CustomerId { get; set; }
         [Required]
+        [Display(Name = "First Name")]
         [BindProperty]
         public string FirstName { get; set; }
         [Required]
+        [Display(Name = "Last Name")]
         [BindProperty]
         public string LastName { get; set; }
         [Required]
+        [Display(Name = "User Name")]
         [BindProperty]
         public string UserName { get; set; }
         [Required]
@@ -44,6 +48,7 @@ namespace Models
         [RegularExpression("^[@.]+$", ErrorMessage = "Email requires @ and . please enter a valid Emal.")]
         public string Email { get; set; }
         [Required]
+        [Display(Name = "Street Address")]
         [BindProperty]
         public string Street { get; set; }
         [Required]
@@ -56,10 +61,12 @@ namespace Models
         [BindProperty]
         public string Country { get; set; }
         [Required]
+        [Display(Name = "Store")]
         [BindProperty]
         public int CustomerDefaultStoreID { get; set; }
         public List<Order> OrdersList { get; set; }
         [BindProperty]
+        [Display(Name = "Admin Privilege")]
         public bool IsAdmin { get; set; }
 
         }

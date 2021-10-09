@@ -12,7 +12,7 @@ namespace WebUI.Controllers
     {
     public class CustomerController : Controller
         {
-        private IBL _bl;
+        private readonly IBL _bl;
         public CustomerController(IBL bl)
             {
             _bl = bl;
@@ -49,7 +49,7 @@ namespace WebUI.Controllers
             try
                 {
                 
-                    _bl.AddCustomer(cust);
+                    //_bl.AddCustomer(cust);
                     
                 return RedirectToAction(nameof(Index));
                 }

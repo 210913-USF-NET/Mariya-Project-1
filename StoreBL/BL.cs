@@ -116,25 +116,34 @@ namespace StoreBL
             return _repo.AddNewOrder(newOrd);
             }
 
-        public void AddLineItems(List<LineItem> items)
+        public LineItem AddLineItem(LineItem item, int id)
             {
-            _repo.AddLineItems(items);
+            return _repo.AddLineItem(item, id);
             }
-
+        public LineItem UpdateLineItem(LineItem lineItem)
+            {
+            return _repo.UpdateLineItem(lineItem);
+            }
         public void InventoryToUpdate(List<Inventory> items)
             {
             _repo.InventoryToUpdate(items);
             }
+        public List<LineItem> LineItemsListByOrderID(int orderId)
+            {
+            return _repo.LineItemsListByOrderID(orderId);
+            }
+        public LineItem GetLineItemDetailsbyId(int lineID)
+            {
+            return _repo.GetLineItemDetailsbyId(lineID);
+            }
+
 
         public List<Order> ListOfOrdersByCust(Customer cust)
             {
             return _repo.ListOfOrdersByCust(cust);
             }
 
-        public List<LineItem> LineItemsList()
-            {
-            return _repo.LineItemsList();
-            }
+
 
         public List<Order> ListOrder()
             {
