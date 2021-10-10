@@ -47,56 +47,56 @@ namespace DL
             }
         public Customer VerifyLogin(string user, string pass)
             {
-            Customer loggIn = _context.Customers.FirstOrDefault(u => u.UserName == user && u.Password == pass);
-            return new Customer()
-                {
-                CustomerId = loggIn.CustomerId,
-                FirstName = loggIn.FirstName,
-                LastName = loggIn.LastName,
-                UserName = loggIn.UserName,
-                Password = loggIn.Password,
-                Email = loggIn.Email,
-                Street = loggIn.Street,
-                City = loggIn.City,
-                State = loggIn.State,
-                Country = loggIn.Country,
-                CustomerDefaultStoreID = loggIn.CustomerDefaultStoreID,
-                IsAdmin = loggIn.IsAdmin,
-                OrdersList = (List<Order>)loggIn.OrdersList.Select(x => new Order()
-                    {
-                    OrderId = x.OrderId,
-                    OrderCustomerID = x.OrderCustomerID,
-                    OrderStoreID = x.OrderStoreID,
-                    OrderTotal = x.OrderTotal
-                    })
-                };
+            return  _context.Customers.FirstOrDefault(u => u.UserName == user && u.Password == pass);
+            //return new Customer()
+            //    {
+            //    CustomerId = loggIn.CustomerId,
+            //    FirstName = loggIn.FirstName,
+            //    LastName = loggIn.LastName,
+            //    UserName = loggIn.UserName,
+            //    Password = loggIn.Password,
+            //    Email = loggIn.Email,
+            //    Street = loggIn.Street,
+            //    City = loggIn.City,
+            //    State = loggIn.State,
+            //    Country = loggIn.Country,
+            //    CustomerDefaultStoreID = loggIn.CustomerDefaultStoreID,
+            //    IsAdmin = loggIn.IsAdmin,
+            //    //OrdersList = (List<Order>)loggIn.OrdersList.Select(x => new Order()
+            //    //    {
+            //    //    OrderId = x.OrderId,
+            //    //    OrderCustomerID = x.OrderCustomerID,
+            //    //    OrderStoreID = x.OrderStoreID,
+            //    //    OrderTotal = x.OrderTotal
+            //    //    })
+            //    };
             }
 
         public Customer GetOneCustomerById(int custID)
             {
-            Customer customertoView =_context.Customers.Include(x => x.OrdersList).FirstOrDefault(u => u.CustomerId == custID);
-            return new Customer()
-                {
-                CustomerId = customertoView.CustomerId,
-                FirstName = customertoView.FirstName,
-                LastName = customertoView.LastName,
-                UserName = customertoView.UserName,
-                Password = customertoView.Password,
-                Email = customertoView.Email,
-                Street = customertoView.Street,
-                City = customertoView.City,
-                State = customertoView.State,
-                Country = customertoView.Country,
-                CustomerDefaultStoreID = customertoView.CustomerDefaultStoreID,
-                IsAdmin = customertoView.IsAdmin,
-                OrdersList = (List<Order>)customertoView.OrdersList.Select(x => new Order()
-                    {
-                    OrderId = x.OrderId,
-                    OrderCustomerID = x.OrderCustomerID,
-                    OrderStoreID = x.OrderStoreID,
-                    OrderTotal = x.OrderTotal
-                    })
-                };
+            return _context.Customers.Include(x => x.OrdersList).FirstOrDefault(u => u.CustomerId == custID);
+            //return new Customer()
+            //    {
+            //    CustomerId = customertoView.CustomerId,
+            //    FirstName = customertoView.FirstName,
+            //    LastName = customertoView.LastName,
+            //    UserName = customertoView.UserName,
+            //    Password = customertoView.Password,
+            //    Email = customertoView.Email,
+            //    Street = customertoView.Street,
+            //    City = customertoView.City,
+            //    State = customertoView.State,
+            //    Country = customertoView.Country,
+            //    CustomerDefaultStoreID = customertoView.CustomerDefaultStoreID,
+            //    IsAdmin = customertoView.IsAdmin,
+            //    OrdersList = (List<Order>)customertoView.OrdersList.Select(x => new Order()
+            //        {
+            //        OrderId = x.OrderId,
+            //        OrderCustomerID = x.OrderCustomerID,
+            //        OrderStoreID = x.OrderStoreID,
+            //        OrderTotal = x.OrderTotal
+            //        })
+            //    };
             }
         public void RemoveCustomer(int custID)
             {
@@ -121,13 +121,6 @@ namespace DL
                 Country = x.Country,
                 CustomerDefaultStoreID = x.CustomerDefaultStoreID,
                 IsAdmin = x.IsAdmin,
-                OrdersList = (List<Order>)x.OrdersList.Select(x => new Order()
-                    {
-                    OrderId = x.OrderId,
-                    OrderCustomerID = x.OrderCustomerID,
-                    OrderStoreID = x.OrderStoreID,
-                    OrderTotal = x.OrderTotal
-                    })
                 }).ToList();
 
             }
@@ -175,6 +168,8 @@ namespace DL
             {
             Product updatedprod = new Product()
                 {
+                ImageName = prod.ImageName,
+                ProductAuthor = prod.ProductAuthor,
                 ProductId = prod.ProductId,
                 ProductName = prod.ProductName,
                 Price = prod.Price,
@@ -229,6 +224,18 @@ namespace DL
                 StoreCountry = x.StoreCountry
                 }).ToList();
             }
+        public StoreFront GetStoreByCustomerId(int custId)
+            {
+            return _context.StoreFronts.Include(x => x.Inventories).ThenInclude(x => x.Product).Select(x => new StoreFront()
+                {
+                StoreFrontId = x.StoreFrontId,
+                StoreName = x.StoreName,
+                StoreStreet = x.StoreStreet,
+                StoreCity = x.StoreCity,
+                StoreState = x.StoreState,
+                StoreCountry = x.StoreCountry
+                }).FirstOrDefault(i => i.StoreFrontId == custId);
+            }
         public StoreFront GetOneStoreFront(int id)
             {
             return _context.StoreFronts.FirstOrDefault(x => x.StoreFrontId == id);
@@ -267,12 +274,37 @@ namespace DL
             _context.ChangeTracker.Clear();
             }
 
-        public List<Inventory> GetInventoryByStoreID(Customer newCustomer)
+        public List<Inventory> GetInventoryByStoreID(int  storeId)
             {
-            return _context.Inventories.Where(y => y.InvStoreID == newCustomer.CustomerDefaultStoreID).ToList();
+            //Inventory inve = _context.StoreFronts.Include(x => x.Inventories.Select(y => new Inventory()
+            //    {
+            //    InvStoreID = y.InvStoreID,
+            //    InvProductID = y.InvProductID,
+            //    InventoryID = y.InventoryID,
+            //    Quantity = y.Quantity,
+            //    Product = GetOneProduct(y.InvProductID)
+            //    }
+            //        )).FirstOrDefault(i => i.StoreFrontId == storeId);
+
+            return _context.Inventories.Include("Product").ToList().Where(x => x.InvStoreID == storeId).ToList();
             }
 
+        public Inventory AddInventory(Inventory inventoryToAdd)
+            {
+            Inventory toUpdate = new Inventory()
+                {
+                InvStoreID = inventoryToAdd.InvStoreID,
+                InvProductID = inventoryToAdd.InvProductID,
+                InventoryID = inventoryToAdd.InventoryID,
+                Quantity = inventoryToAdd.Quantity,
+                Product = GetOneProduct(inventoryToAdd.InvProductID)
+                };
+            toUpdate = _context.Add(toUpdate).Entity;
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
 
+            return toUpdate;
+            }
         public List<LineItem> LineItemsListByOrderID(int orderID)
             {
             return _context.LineItems.Where(i => i.LineOrderID == orderID).Select(i => new LineItem()).ToList();

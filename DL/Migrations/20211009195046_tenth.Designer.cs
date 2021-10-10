@@ -3,15 +3,17 @@ using System;
 using DL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DL.Migrations
 {
     [DbContext(typeof(StoreDBContext))]
-    partial class StoreDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211009195046_tenth")]
+    partial class tenth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,7 +234,7 @@ namespace DL.Migrations
             modelBuilder.Entity("Models.Inventory", b =>
                 {
                     b.HasOne("Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Inventories")
                         .HasForeignKey("ProductId");
 
                     b.HasOne("Models.StoreFront", "StoreFront")
@@ -282,6 +284,11 @@ namespace DL.Migrations
             modelBuilder.Entity("Models.Order", b =>
                 {
                     b.Navigation("LineItems");
+                });
+
+            modelBuilder.Entity("Models.Product", b =>
+                {
+                    b.Navigation("Inventories");
                 });
 
             modelBuilder.Entity("Models.StoreFront", b =>

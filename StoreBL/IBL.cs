@@ -26,12 +26,13 @@ namespace StoreBL
 
         List<StoreFront> GetAllStoreFronts();
         StoreFront AddStoreFront(StoreFront store);
+        StoreFront GetStoreByCustomerId(int custId);
         StoreFront GetOneStoreFront(int id);
         StoreFront UpdateStoreFront(StoreFront store);
         void RemoveStoreFront(int id);
 
-
-        List<Inventory> GetInventoryByStoreID(Customer newCustomer);
+        Inventory AddInventory(Inventory inventoryToAdd);
+        List<Inventory> GetInventoryByStoreID(int storeId);
         List<Inventory> GetInventoryForAdmin(int input);
         void InventoryToUpdate(List<Inventory> items);
         void InventoryToRemove(List<Inventory> items);

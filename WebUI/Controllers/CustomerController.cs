@@ -49,7 +49,7 @@ namespace WebUI.Controllers
             try
                 {
                 
-                    //_bl.AddCustomer(cust);
+                    _bl.AddCustomer(cust);
                     
                 return RedirectToAction(nameof(Index));
                 }
@@ -141,6 +141,7 @@ namespace WebUI.Controllers
                 {
                 TempData["CustomerId"] = null;
                 return RedirectToAction("Create");
+                //@Html.ActionLink("Storefront", "Index", "Storefront", new { id = cust.CustomerId });
                 }
             else if (loggedin.IsAdmin)
                     {
@@ -154,8 +155,8 @@ namespace WebUI.Controllers
                 
                 TempData["CustomerId"] = loggedin.FirstName;
                 TempData.Keep("TempDataProperty-FristName");
-                
-                    return RedirectToAction("Index", "Home", loggedin);
+                return RedirectToAction("Index", "Home", loggedin);
+                //return RedirectToAction("StoreFront", "Index",cust.CustomerDefaultStoreID);
                 
                 }
                 }

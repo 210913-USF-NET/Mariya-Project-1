@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using StoreBL;
 
+
 namespace WebUI.Controllers
     {
     public class StorefrontController : Controller
@@ -20,6 +21,13 @@ namespace WebUI.Controllers
         public ActionResult Index()
             {
             List<StoreFront> allStore = _bl.GetAllStoreFronts();
+            
+            return View(allStore);
+            }
+        // GET: StorefrontController
+        public ActionResult IndexCust(int id)
+            {
+            StoreFront allStore = _bl.GetStoreByCustomerId(id);
             return View(allStore);
             }
 

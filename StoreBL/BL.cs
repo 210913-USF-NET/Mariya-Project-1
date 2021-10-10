@@ -78,9 +78,9 @@ namespace StoreBL
             {
             return _repo.GetOneProduct(ProdId);
             }
-        public List<Inventory> GetInventoryByStoreID(Customer newCustomer)
+        public List<Inventory>  GetInventoryByStoreID(int storeId)
             {
-            return _repo.GetInventoryByStoreID(newCustomer);
+            return _repo.GetInventoryByStoreID(storeId);
             }
 
 
@@ -93,7 +93,10 @@ namespace StoreBL
             return _repo.AddStoreFront(store);
             }
 
-
+        public StoreFront GetStoreByCustomerId(int custId)
+            {
+            return _repo.GetStoreByCustomerId(custId);
+            }
 
         public void RemoveStoreFront(int ID)
             {
@@ -149,7 +152,10 @@ namespace StoreBL
             {
             return _repo.ListOrder();
             }
-
+        public Inventory AddInventory(Inventory inventoryToAdd)
+            {
+            return _repo.AddInventory(inventoryToAdd);
+            }
         public List<Inventory> GetInventoryForAdmin(int input)
             {
             return _repo.GetInventoryForAdmin(input);

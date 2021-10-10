@@ -1,0 +1,67 @@
+﻿@model Models.StoreFront
+
+@{
+    ViewData["Title"] = "IndexCust";
+    Layout = "~/Views/Shared/_LayoutUse.cshtml";
+}
+
+<h1>You are shopping at @Html.DisplayNameFor(model => model.StoreCity) Location</h1>
+
+<p>
+
+</p>
+@foreach (var product in Model.Inventories)
+    {
+<h2> @product.Product.Genre</h2>
+
+    foreach (var prod in Model.Inventories.Where(x => x.Product.Genre == product.Product.Genre))
+        {
+    <div class="col-sm-3">
+        <a asp-page="/order" asp-route-id="@prod.Product.ProductId" title="Order @prod.Product.ProductName">
+            <div class="productInfo">
+                <h3>@prod.Product.ProductName</h3>
+                <h3>@prod.Product.ProductAuthor</h3>
+                <img class="product-image img-fluid img-thumbnail" img src=@Url.Content(prod.Product.ImageName) alt="Image of @prod.Product.ProductName" />
+                <p class="description">@prod.Product.Description</p>
+            </div>
+        </a>
+        <div class="action">
+            <p class="price float-left">$@string.Format("{0:f}", product.Product.Price)</p>
+            <a class="btn btn-sm btn-danger order-button float-right" asp-page="/order" asp-route-id="@prod.Product.ProductId" title="Order @prod.Product.ProductName">Add To Shopping Cart</a>
+        </div>
+    </div>
+        }
+    }
+@*<tbody>
+    @foreach (var item in Model.Inventories)
+        {
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.Genre)
+        </td>
+        foreach (var prod in Model.Inventories)
+            {
+            <td>
+                <img src=@Url.Content(prod.Product.ImageName) alt="IMAGES" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => prod.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => prod.Product.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => prod.Product.ProductAuthor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => prod.Product.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+            }
+        }
+</tbody>
+    </table>*@

@@ -42,6 +42,7 @@ namespace Models
         public string UserName { get; set; }
         [Required]
         [BindProperty]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required]
         [BindProperty]

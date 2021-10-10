@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using StoreBL;
+using WebUI.Models;
 
 namespace WebUI.Controllers
     {
@@ -17,11 +18,18 @@ namespace WebUI.Controllers
             _bl = bl;
             }
         // GET: InventoryController
-        public ActionResult Index(Customer cust)
+        public ActionResult Index(int id)
             {
-            List<Inventory> myInventory = _bl.GetInventoryByStoreID(cust);
-            return View();
+            ViewData["Int"] = id;
+            ViewBag.Store = _bl.GetOneStoreFront(id);
+            List<Inventory> myInventory = _bl.GetInventoryByStoreID(id);
+            foreach(var p in myInventory)
+                {
+
+                }
+            return View(myInventory);
             }
+
 
         // GET: InventoryController/Details/5
         public ActionResult Details(int id)
@@ -30,19 +38,24 @@ namespace WebUI.Controllers
             }
 
         // GET: InventoryController/Create
-        public ActionResult Create()
+        public ActionResult Create(int storeId)
             {
-            return View();
+            //int storenum = int.Parse(storeId);
+            ViewBag.Store = _bl.GetOneStoreFront(storeId);
+            return View(new Inventory(storeId));
             }
 
         // POST: InventoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Inventory inventory)
             {
+            Product prod = _bl.GetOneProduct(inventory.InvProductID);
+            inventory.Product = prod;
             try
                 {
-                return RedirectToAction(nameof(Index));
+                Inventory inven = _bl.AddInventory(inventory);
+                return RedirectToAction(nameof(Index),new {id = inventory.InvStoreID });
                 }
             catch
                 {

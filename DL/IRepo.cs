@@ -16,11 +16,6 @@ namespace DL
         List<Customer> GetAllCustomers();
         Customer UpdateCustomer(Customer currentCustomer);
 
-
-
-
-
-
         List<Product> ProductsList();
         List<Product> ProductsListByGenre(string genre);
         Product AddProduct(Product newProduct);
@@ -30,11 +25,13 @@ namespace DL
 
         List<StoreFront> GetAllStoreFronts();
         StoreFront AddStoreFront(StoreFront store);
+        StoreFront GetStoreByCustomerId(int custId);
         StoreFront GetOneStoreFront(int id);
         StoreFront UpdateStoreFront(StoreFront store);
         void RemoveStoreFront(int id);
 
-        List<Inventory> GetInventoryByStoreID(Customer newCustomer);
+        Inventory AddInventory(Inventory inventoryToAdd);
+        List<Inventory> GetInventoryByStoreID(int storeId);
         List<Inventory> GetInventoryForAdmin(int input);
         void InventoryToUpdate(List<Inventory> items);
         void InventoryToRemove(List<Inventory> items);
