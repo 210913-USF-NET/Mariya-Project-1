@@ -48,55 +48,12 @@ namespace DL
         public Customer VerifyLogin(string user, string pass)
             {
             return  _context.Customers.FirstOrDefault(u => u.UserName == user && u.Password == pass);
-            //return new Customer()
-            //    {
-            //    CustomerId = loggIn.CustomerId,
-            //    FirstName = loggIn.FirstName,
-            //    LastName = loggIn.LastName,
-            //    UserName = loggIn.UserName,
-            //    Password = loggIn.Password,
-            //    Email = loggIn.Email,
-            //    Street = loggIn.Street,
-            //    City = loggIn.City,
-            //    State = loggIn.State,
-            //    Country = loggIn.Country,
-            //    CustomerDefaultStoreID = loggIn.CustomerDefaultStoreID,
-            //    IsAdmin = loggIn.IsAdmin,
-            //    //OrdersList = (List<Order>)loggIn.OrdersList.Select(x => new Order()
-            //    //    {
-            //    //    OrderId = x.OrderId,
-            //    //    OrderCustomerID = x.OrderCustomerID,
-            //    //    OrderStoreID = x.OrderStoreID,
-            //    //    OrderTotal = x.OrderTotal
-            //    //    })
-            //    };
             }
 
         public Customer GetOneCustomerById(int custID)
             {
             return _context.Customers.Include(x => x.OrdersList).FirstOrDefault(u => u.CustomerId == custID);
-            //return new Customer()
-            //    {
-            //    CustomerId = customertoView.CustomerId,
-            //    FirstName = customertoView.FirstName,
-            //    LastName = customertoView.LastName,
-            //    UserName = customertoView.UserName,
-            //    Password = customertoView.Password,
-            //    Email = customertoView.Email,
-            //    Street = customertoView.Street,
-            //    City = customertoView.City,
-            //    State = customertoView.State,
-            //    Country = customertoView.Country,
-            //    CustomerDefaultStoreID = customertoView.CustomerDefaultStoreID,
-            //    IsAdmin = customertoView.IsAdmin,
-            //    OrdersList = (List<Order>)customertoView.OrdersList.Select(x => new Order()
-            //        {
-            //        OrderId = x.OrderId,
-            //        OrderCustomerID = x.OrderCustomerID,
-            //        OrderStoreID = x.OrderStoreID,
-            //        OrderTotal = x.OrderTotal
-            //        })
-            //    };
+
             }
         public void RemoveCustomer(int custID)
             {
@@ -190,18 +147,10 @@ namespace DL
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
             }
-        public List<Product> ProductsListByGenre(string genre)
+        public List<string> ProdGenreList()
             {
-            return _context.Products.Where(x => x.Genre.Equals(genre)).Select(x => new Product()
-                {
-                ProductName = x.ProductName,
-                ProductId = x.ProductId,
-                ProductAuthor = x.ProductAuthor,
-                Price = x.Price,
-                Genre = x.Genre,
-                Description = x.Description
-                }
-            ).ToList();
+            List<string> Genres= _context.Products.Select(x => x.Genre).Distinct().ToList();
+            return Genres;
             }
         public Product AddProduct(Product newProduct)
             {
@@ -276,16 +225,6 @@ namespace DL
 
         public List<Inventory> GetInventoryByStoreID(int  storeId)
             {
-            //Inventory inve = _context.StoreFronts.Include(x => x.Inventories.Select(y => new Inventory()
-            //    {
-            //    InvStoreID = y.InvStoreID,
-            //    InvProductID = y.InvProductID,
-            //    InventoryID = y.InventoryID,
-            //    Quantity = y.Quantity,
-            //    Product = GetOneProduct(y.InvProductID)
-            //    }
-            //        )).FirstOrDefault(i => i.StoreFrontId == storeId);
-
             return _context.Inventories.Include("Product").ToList().Where(x => x.InvStoreID == storeId).ToList();
             }
 
@@ -297,6 +236,7 @@ namespace DL
                 InvProductID = inventoryToAdd.InvProductID,
                 InventoryID = inventoryToAdd.InventoryID,
                 Quantity = inventoryToAdd.Quantity,
+        
                 Product = GetOneProduct(inventoryToAdd.InvProductID)
                 };
             toUpdate = _context.Add(toUpdate).Entity;
@@ -313,20 +253,13 @@ namespace DL
             {
             return _context.LineItems.FirstOrDefault(i => i.LineItemId == lineitemID);
             }
-        public LineItem AddLineItem(LineItem item, int id)
+        public LineItem AddLineItem(LineItem item)
             {
-            LineItem linetoadd = new LineItem()
-                {
-                LineItemId = item.LineItemId,
-                LineOrderID = id,
-                LineProductID = item.LineProductID,
-                Quantity = item.Quantity,
-                StoreId = item.StoreId
-                };
-            linetoadd = _context.Add(linetoadd).Entity;
+            
+            _context.Add(item);
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
-            return linetoadd;
+            return item;
             }
         public LineItem UpdateLineItem(LineItem lineItem)
             {
@@ -361,25 +294,18 @@ namespace DL
 
             return newOrd;
             }
+        Order UpdateOrder(Order myOrder)
+            {
+            _context.Update(myOrder);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            return myOrder;
+            }
         /// <summary>
         /// Takes a list of inventory created in UI and adds in a foreach loop
         /// </summary>
         /// <param name="items"></param>
-        public void InventorToUpdate(List<Inventory> items)
-            {
 
-            foreach (Inventory item in items)
-                {
-
-                Inventory updatedInventory = (from i in _context.Inventories
-                                              where i.InvProductID == item.InvProductID && i.InvStoreID == item.InvStoreID
-                                              select i).SingleOrDefault();
-
-                updatedInventory.Quantity = item.Quantity;
-                }
-            _context.SaveChanges();
-            _context.ChangeTracker.Clear();
-            }
 
 
         public List<Order> ListOfOrdersByCust(Customer currentCustomer)
@@ -394,25 +320,78 @@ namespace DL
             }
 
 
+        public ShoppingCart AddShoppingCart(ShoppingCart shoppingCart)
+            {
+            ShoppingCart toUpdate = new ShoppingCart()
+                {
+                CustId = shoppingCart.CustId,
+                ProductID = shoppingCart.ProductID,
+                Quantity = shoppingCart.Quantity,
+                StoreId = shoppingCart.StoreId,
+                Product = GetOneProduct(shoppingCart.ProductID)
+                };
+            toUpdate = _context.Add(toUpdate).Entity;
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
 
+            return toUpdate;
+            }
 
+        public List<ShoppingCart> GetShoppingCartByCustId(int CustId)
+            {
+            return _context.ShoppingCarts.Include("Product").ToList().Where(x => x.CustId == CustId).ToList();
+            }
 
+        public ShoppingCart UpdateShoppingCart(ShoppingCart cart)
+            {
+            _context.ShoppingCarts.Update(cart);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
 
-        public void InventoryToUpdate(List<Inventory> items)
+            return cart;
+            }
+
+        public void RemoveItemFromShoppingCart(ShoppingCart cart)
+            {
+            ShoppingCart todelte = _context.ShoppingCarts.FirstOrDefault(x => x.Id == cart.Id);
+            _context.Remove(todelte);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            }
+
+        public void EmptyShoppingCart(int custID)
+            {
+            List <ShoppingCart> myCart= _context.ShoppingCarts.Where(x => x.CustId == custID).ToList();
+            foreach(var item in myCart)
+                {
+                _context.Remove(item);
+                }
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+
+            }
+
+        public Inventory InventoryToUpdate(Inventory inv)
+            {
+            _context.Update(inv);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            return inv;
+            }
+
+        public void InventoryToRemove(int id)
             {
             throw new NotImplementedException();
             }
 
-        public void InventoryToRemove(List<Inventory> items)
+        public ShoppingCart UpdateShoppingCart(int id)
             {
             throw new NotImplementedException();
             }
 
-
-
-
-        
-
-       
+        public void EmptyShoppingCart(List<ShoppingCart> mycart)
+            {
+            throw new NotImplementedException();
+            }
         }
     }

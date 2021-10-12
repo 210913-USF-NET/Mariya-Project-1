@@ -18,11 +18,17 @@ namespace StoreBL
 
 
         List<Product> ProductsList();
-        List<Product> ProductsListByGenre(string genre);
+        List<string> ProdGenreList();
         Product AddProduct(Product newProduct);
         Product GetOneProduct(int ProdId);
         Product UpdateProduct(Product prod);
         void RemoveProduct(int ProdId);
+
+        ShoppingCart AddShoppingCart(ShoppingCart shoppingCart);
+        List<ShoppingCart> GetShoppingCartByCustId(int CustId);
+        ShoppingCart UpdateShoppingCart(ShoppingCart shoppingCart);
+        void RemoveItemFromShoppingCart(ShoppingCart shoppingCart);
+        void EmptyShoppingCart(List<ShoppingCart> mycart);
 
         List<StoreFront> GetAllStoreFronts();
         StoreFront AddStoreFront(StoreFront store);
@@ -34,10 +40,10 @@ namespace StoreBL
         Inventory AddInventory(Inventory inventoryToAdd);
         List<Inventory> GetInventoryByStoreID(int storeId);
         List<Inventory> GetInventoryForAdmin(int input);
-        void InventoryToUpdate(List<Inventory> items);
+        Inventory InventoryToUpdate(Inventory inv);
         void InventoryToRemove(List<Inventory> items);
 
-        LineItem AddLineItem(LineItem item, int id);
+        LineItem AddLineItem(LineItem item);
         List<LineItem> LineItemsListByOrderID(int orderId);
         LineItem UpdateLineItem(LineItem lineItem);
         LineItem GetLineItemDetailsbyId(int lineID);

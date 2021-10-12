@@ -17,7 +17,7 @@ namespace DL
         Customer UpdateCustomer(Customer currentCustomer);
 
         List<Product> ProductsList();
-        List<Product> ProductsListByGenre(string genre);
+        List<string> ProdGenreList();
         Product AddProduct(Product newProduct);
         Product GetOneProduct(int ProdId);
         Product UpdateProduct(Product prod);
@@ -33,15 +33,23 @@ namespace DL
         Inventory AddInventory(Inventory inventoryToAdd);
         List<Inventory> GetInventoryByStoreID(int storeId);
         List<Inventory> GetInventoryForAdmin(int input);
-        void InventoryToUpdate(List<Inventory> items);
-        void InventoryToRemove(List<Inventory> items);
+        Inventory InventoryToUpdate(Inventory inv);
+        void InventoryToRemove(int id);
 
-        LineItem AddLineItem(LineItem item, int id);
+        ShoppingCart AddShoppingCart(ShoppingCart shoppingCart);
+        List<ShoppingCart> GetShoppingCartByCustId(int CustId);
+        ShoppingCart UpdateShoppingCart(ShoppingCart shoppingCart);
+        void RemoveItemFromShoppingCart(ShoppingCart shoppingCart);
+        void EmptyShoppingCart(List<ShoppingCart> mycart);
+
+        LineItem AddLineItem(LineItem item);
         List<LineItem> LineItemsListByOrderID(int orderId);
         LineItem UpdateLineItem(LineItem lineItem);
         LineItem GetLineItemDetailsbyId(int lineId);
 
         Order AddNewOrder(Order newOrd);
+        Order UpdateOrder(Order myOrder);
+        
         
         List<Order> ListOfOrdersByCust(Customer cust);
         List<Order> ListOrder();

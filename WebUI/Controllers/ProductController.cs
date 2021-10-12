@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Serilog;
 using StoreBL;
 
 namespace WebUI.Controllers
@@ -47,8 +48,9 @@ namespace WebUI.Controllers
                     
                 return RedirectToAction(nameof(Index));
                 }
-            catch
+            catch (Exception e)
                 {
+                Log.Information($"{e}");
                 return View();
                 }
             }
@@ -70,8 +72,9 @@ namespace WebUI.Controllers
                 _bl.UpdateProduct(prod);
                 return RedirectToAction(nameof(Index));
                 }
-            catch
+            catch (Exception e)
                 {
+                Log.Information($"{e}");
                 return RedirectToAction(nameof(Index));
                 }
             }

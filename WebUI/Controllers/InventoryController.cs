@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Serilog;
 using StoreBL;
 using WebUI.Models;
 
@@ -13,20 +14,19 @@ namespace WebUI.Controllers
     public class InventoryController : Controller
         {
         private readonly IBL _bl;
-        public InventoryController(IBL bl)
+
+
+        public InventoryController(IBL bl )
             {
             _bl = bl;
             }
         // GET: InventoryController
         public ActionResult Index(int id)
             {
-            ViewData["Int"] = id;
-            ViewBag.Store = _bl.GetOneStoreFront(id);
-            List<Inventory> myInventory = _bl.GetInventoryByStoreID(id);
-            foreach(var p in myInventory)
-                {
 
-                }
+            ViewBag.Store = _bl.GetOneStoreFront(id);
+            //ViewData["Store"] = id;
+            List<Inventory> myInventory = _bl.GetInventoryByStoreID(id);
             return View(myInventory);
             }
 
@@ -42,6 +42,8 @@ namespace WebUI.Controllers
             {
             //int storenum = int.Parse(storeId);
             ViewBag.Store = _bl.GetOneStoreFront(storeId);
+            ViewData["Store"] = storeId;
+            //Session["Store"] = storeId;
             return View(new Inventory(storeId));
             }
 
@@ -55,10 +57,12 @@ namespace WebUI.Controllers
             try
                 {
                 Inventory inven = _bl.AddInventory(inventory);
+                ViewBag.Store = _bl.GetOneStoreFront(inven.InvStoreID);
                 return RedirectToAction(nameof(Index),new {id = inventory.InvStoreID });
                 }
-            catch
+            catch (Exception e)
                 {
+                Log.Information($"{e}");
                 return View();
                 }
             }
@@ -72,14 +76,16 @@ namespace WebUI.Controllers
         // POST: InventoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Inventory inventory)
             {
             try
                 {
+                _bl.InventoryToUpdate(inventory);
                 return RedirectToAction(nameof(Index));
                 }
-            catch
+            catch (Exception e)
                 {
+                Log.Information($"{e}");
                 return View();
                 }
             }

@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] -BibliHollow</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+ 
 </head>
 <body>
     <header>
@@ -22,7 +23,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="StoreFront" asp-action="IndexCust">Stores</a>
                         </li>
                         <li class="nav-item">
                             <form class="navbar-form navbar-left" action="/action_page.php">
@@ -35,12 +36,13 @@
                                 </div>
                             </form>
                         </li>
+
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
                         
                       
-                        <li><a asp-area="" asp-controller="Customer" asp-action="ShoppingCart"> Start Shopping </a></li>
+                        <li><a asp-area="" asp-controller="ShoppingCart" asp-action="Index"> Shopping Cart </a></li>
                         <li><a asp-area="" asp-controller="Customer" asp-action="Logout">| Logout </a></li>
 
                     </ul>

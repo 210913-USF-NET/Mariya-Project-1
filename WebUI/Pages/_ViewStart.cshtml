@@ -1,18 +1,19 @@
-﻿  @if (@TempData["CustomerId"] == null)
-        {
-        Layout = "~/Views/Shared/_Layout.cshtml";
-        }
+﻿
 
-    else if(@TempData["CustomerId"].ToString() == "Admin")
-{
-        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-        }
-else 
-        {
-        Layout = "~/Views/Shared/_LayoutUse.cshtml";
-        }
-}
+@if (Context.Request.Cookies["CustomerId"] == null)
+    {
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+else if (Context.Request.Cookies["CustomerId"] == "Admin")
+    {
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+else
+    {
+    Layout = "~/Views/Shared/_LayoutUse.cshtml";
+    }
+
 @{
     ViewData["Title"] = "Home Page";
 }
-

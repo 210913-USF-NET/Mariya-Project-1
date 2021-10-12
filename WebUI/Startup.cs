@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DL;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,9 @@ namespace WebUI
 
             services.AddScoped<IRepo, Repo>();
             services.AddScoped<IBL, BL>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => options.LoginPath = "/Index");
+
             //services.AddDistributedMemoryCache();
 
             //services.AddSession(options =>
@@ -60,6 +64,9 @@ namespace WebUI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthorization();
+            app.UseCookiePolicy();
             //app.UseSession();
 
             app.UseEndpoints(endpoints =>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Serilog;
 using StoreBL;
 
 
@@ -25,10 +26,24 @@ namespace WebUI.Controllers
             return View(allStore);
             }
         // GET: StorefrontController
-        public ActionResult IndexCust(int id)
+        public ActionResult IndexCust()
             {
-            StoreFront allStore = _bl.GetStoreByCustomerId(id);
-            return View(allStore);
+            var mystore = HttpContext.Request.Cookies["MyStore"];
+            int Storeid = int.Parse(mystore);
+           
+            //int Id = int.Parse(Storeid);
+            List<string> genreList = _bl.ProdGenreList();
+            ViewBag.Genre = genreList;
+            StoreFront allStore = _bl.GetStoreByCustomerId(Storeid);
+            ViewBag.myStore = allStore;
+            List<Inventory> myInventory = _bl.GetInventoryByStoreID(Storeid);
+            foreach (var prod in myInventory)
+                {
+                prod.Product = _bl.GetOneProduct(prod.InvProductID);
+                //prod.Genre = genre;
+                };
+            
+            return View(myInventory);
             }
 
         // GET: StorefrontController/Details/5
@@ -53,8 +68,9 @@ namespace WebUI.Controllers
                 _bl.AddStoreFront(store);
                 return RedirectToAction(nameof(Index));
                 }
-            catch
+            catch (Exception e)
                 {
+                Log.Information($"{e}");
                 return View();
                 }
             }
@@ -76,8 +92,9 @@ namespace WebUI.Controllers
                 _bl.UpdateStoreFront(store);
                 return RedirectToAction(nameof(Index));
                 }
-            catch
+            catch (Exception e)
                 {
+                Log.Information($"{e}");
                 return View();
                 }
             }
@@ -99,8 +116,9 @@ namespace WebUI.Controllers
                 _bl.RemoveStoreFront(id);
                 return RedirectToAction(nameof(Index));
                 }
-            catch
+            catch (Exception e)
                 {
+                Log.Information($"{e}");
                 return View();
                 }
             }

@@ -1,32 +1,37 @@
-﻿@model IEnumerable<Models.LineItem>
+﻿@model IEnumerable<Models.Order>
 
 @{
-    ViewData["Title"] = "Index";
-
+    Layout = null;
 }
 
-<h1>Index</h1>
+<!DOCTYPE html>
 
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
 <p>
-    <a asp-action="Create">Create New</a>
+
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LineItemId)
+                @Html.DisplayNameFor(model => model.OrderId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LineOrderID)
+                @Html.DisplayNameFor(model => model.OrderCustomerID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LineProductID)
+                @Html.DisplayNameFor(model => model.OrderStoreID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StoreId)
+                @Html.DisplayNameFor(model => model.OrderTotal)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th></th>
         </tr>
@@ -35,19 +40,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.LineItemId)
+                @Html.DisplayFor(modelItem => item.OrderId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LineOrderID)
+                @Html.DisplayFor(modelItem => item.OrderCustomerID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LineProductID)
+                @Html.DisplayFor(modelItem => item.OrderStoreID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StoreId)
+                @Html.DisplayFor(modelItem => item.OrderTotal)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
+                @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
@@ -58,3 +63,5 @@
 }
     </tbody>
 </table>
+</body>
+</html>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Models.LineItem>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Thank you for shopping @ViewBag.Customer.FirstName</title>
+</head>
+<body>
+    <h3>Your Order Total is: $@string.Format("{0:f}", decimal.Parse(ViewBag.Total)) </h3> 
+    <h5>Order Date $@string.Format("Order was placed{0:d} at {0:t}", DateTime.Parse(@ViewBag.Order.Date))</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product
+                </th>
+                <th>
+                    Author
+                </th>
+                <th>
+                    Genre
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.ProductAuthor)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Genre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+                }
+        </tbody>
+    </table>
+</body>
+</html>

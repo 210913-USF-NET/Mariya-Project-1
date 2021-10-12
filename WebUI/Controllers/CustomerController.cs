@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Differencing;
 using Models;
+using Serilog;
 using StoreBL;
 
 namespace WebUI.Controllers
@@ -53,14 +54,43 @@ namespace WebUI.Controllers
                     
                 return RedirectToAction(nameof(Index));
                 }
-            catch
+            catch (Exception e)
                 {
+                Log.Information($"{e}");
                 return View();
                 }
             }
 
         // GET: CustomerController/Edit/5
         public ActionResult Edit(int id)
+            {
+            var userId = HttpContext.Request.Cookies["CustomerId"];
+            int custId = int.Parse(userId);
+            Customer toEdit = _bl.GetOneCustomerById(custId);
+            return View(toEdit);
+            }
+
+        // POST: CustomerController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Profile(Customer cust)
+            {
+            try
+                {
+                var userId = HttpContext.Request.Cookies["CustomerId"];
+                int custId = int.Parse(userId);
+                Customer toEdit= _bl.UpdateCustomer(cust);
+                HttpContext.Response.Cookies.Append("MyStore", toEdit.CustomerDefaultStoreID.ToString());
+                return RedirectToAction("Home", "Index");
+                }
+            catch (Exception e)
+                {
+                Log.Information($"{e}");
+                return RedirectToAction("Home", "Index");
+                }
+            }
+        // GET: CustomerController/Edit/5
+        public ActionResult Profile(int id)
             {
             Customer toEdit = _bl.GetOneCustomerById(id);
             return View(toEdit);
@@ -73,22 +103,23 @@ namespace WebUI.Controllers
             {
             try
                 {
-              
-                    _bl.UpdateCustomer(cust);
-                    
+
+                Customer toEdit = _bl.UpdateCustomer(cust);
+                HttpContext.Response.Cookies.Append("MyStore", toEdit.CustomerDefaultStoreID.ToString());
                 return RedirectToAction(nameof(Index));
                 }
-            catch
+            catch (Exception e)
                 {
+                Log.Information($"{e}");
                 return RedirectToAction(nameof(Index));
                 }
             }
-
         // GET: CustomerController/Delete/5
         public ActionResult Delete(int id)
             {
-            Customer toEdit = _bl.GetOneCustomerById(id);
-            return View(toEdit);
+             Customer todelete= _bl.GetOneCustomerById(id);
+
+            return View(todelete);
             }
 
         // POST: CustomerController/Delete/5
@@ -101,10 +132,12 @@ namespace WebUI.Controllers
                 _bl.RemoveCustomer(id);
                 return RedirectToAction(nameof(Index));
                 }
-            catch
+            catch (Exception e)
                 {
-                return View();
+                Log.Information($"{e}");
+                return RedirectToAction("Index", "Home");
                 }
+            
             }
         public ActionResult Logout(int id)
             {
@@ -118,47 +151,53 @@ namespace WebUI.Controllers
             {
             try
                 {
-                
-                cust = null;
-                TempData["CustomerId"] = null;
-                TempData.Keep("CustomerId");
+                Response.Cookies.Delete("CustomerId");
+                Response.Cookies.Delete("MyStore");
                 return RedirectToAction("Index", "Home");
                 }
-            catch
+            catch (Exception e)
                 {
+                Log.Information($"{e}");
                 return RedirectToAction("Index", "Home");
                 }
+
             }
         // POST: CustomerController/Logout
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(Customer cust)
             {
-
-            
-                Customer loggedin = _bl.VerifyLogin(cust.UserName, cust.Password);
-            if (loggedin == null)
+            try
                 {
-                TempData["CustomerId"] = null;
-                return RedirectToAction("Create");
-                //@Html.ActionLink("Storefront", "Index", "Storefront", new { id = cust.CustomerId });
-                }
-            else if (loggedin.IsAdmin)
+
+                Customer loggedin = _bl.VerifyLogin(cust.UserName, cust.Password);
+                if (loggedin == null)
                     {
-                TempData["CustomerId"] = loggedin.UserName;
-                TempData.Keep("TempDataProperty-FristName");
-              
-                return RedirectToAction("Index", "Home", loggedin);
+                    ViewBag.Customer = null;
+                    ModelState.AddModelError(string.Empty, "That is not a valid Log in");
+                    return View("Login");
+                    //@Html.ActionLink("Storefront", "Index", "Storefront", new { id = cust.CustomerId });
+                    }
+                else if (loggedin.IsAdmin)
+                    {
+                    HttpContext.Response.Cookies.Append("CustomerId", loggedin.UserName);
+                    return RedirectToAction("Index", "Home", loggedin);
                     }
                 else
                     {
-                
-                TempData["CustomerId"] = loggedin.FirstName;
-                TempData.Keep("TempDataProperty-FristName");
-                return RedirectToAction("Index", "Home", loggedin);
-                //return RedirectToAction("StoreFront", "Index",cust.CustomerDefaultStoreID);
-                
+                    ViewBag.Customer = loggedin;
+                    HttpContext.Response.Cookies.Append("CustomerId", loggedin.CustomerId.ToString());
+                    HttpContext.Response.Cookies.Append("MyStore", loggedin.CustomerDefaultStoreID.ToString());
+                    return RedirectToAction("Index", "Home", loggedin);
+
+                    }
                 }
+            catch (Exception e)
+                {
+                Log.Information($"{e}");
+                return View();
                 }
+            }
+
         }
     }

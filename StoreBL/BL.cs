@@ -59,10 +59,10 @@ namespace StoreBL
 
 
 
-        public List<Product> ProductsListByGenre(string genre)
+        public List<string> ProdGenreList()
             {
             
-            return _repo.ProductsListByGenre(genre);
+            return _repo.ProdGenreList();
             }
 
         public Product AddProduct(Product newProduct)
@@ -119,18 +119,15 @@ namespace StoreBL
             return _repo.AddNewOrder(newOrd);
             }
 
-        public LineItem AddLineItem(LineItem item, int id)
+        public LineItem AddLineItem(LineItem item)
             {
-            return _repo.AddLineItem(item, id);
+            return _repo.AddLineItem(item);
             }
         public LineItem UpdateLineItem(LineItem lineItem)
             {
             return _repo.UpdateLineItem(lineItem);
             }
-        public void InventoryToUpdate(List<Inventory> items)
-            {
-            _repo.InventoryToUpdate(items);
-            }
+
         public List<LineItem> LineItemsListByOrderID(int orderId)
             {
             return _repo.LineItemsListByOrderID(orderId);
@@ -173,12 +170,40 @@ namespace StoreBL
             }
 
     
-        public void InventoryToRemove(List<Inventory> items)
+
+        public ShoppingCart AddShoppingCart(ShoppingCart shoppingCart)
             {
-            _repo.InventoryToRemove(items);
+            return _repo.AddShoppingCart(shoppingCart);
             }
 
+        public List<ShoppingCart> GetShoppingCartByCustId(int CustId)
+            {
+            return _repo.GetShoppingCartByCustId(CustId);
+            }
 
+        public ShoppingCart UpdateShoppingCart(ShoppingCart shoppingCart)
+            {
+            return _repo.UpdateShoppingCart(shoppingCart);
+            }
 
+        public void RemoveItemFromShoppingCart(ShoppingCart shoppingCart)
+            {
+            _repo.RemoveItemFromShoppingCart(shoppingCart);
+            }
+
+        public void EmptyShoppingCart(List<ShoppingCart> mycart)
+            {
+            _repo.EmptyShoppingCart(mycart);
+            }
+
+        public void InventoryToRemove(List<Inventory> items)
+            {
+            throw new NotImplementedException();
+            }
+
+        public Inventory InventoryToUpdate(Inventory inv)
+            {
+            return _repo.InventoryToUpdate(inv);
+            }
         }
     }

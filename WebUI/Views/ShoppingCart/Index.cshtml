@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Models.ShoppingCart>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Your Shopping cart</title>
+</head>
+<body>
+    @if (Model == null)
+        {
+        <p> Your shopping cart is empty <a asp-area="" asp-controller="StoreFront" asp-action="IndexCust">Start Shopping </a></p>
+        }
+    else
+        {
+<table class="table">
+    <hr />
+    <h2>Your current order total is $@string.Format("{0:f}", decimal.Parse(ViewBag.Total))</h2>
+    <hr />
+    @*<thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StoreId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th></th>
+            </tr>
+        </thead>*@
+    <tbody>
+        @foreach (var prod in Model)
+            {
+            <div>
+                <h5>@prod.Product.ProductName</h5>
+                <img class="product-image" img src="@Html.Raw(prod.Product.ImageName)" style="height:100px;width:100px;" alt="Image of @prod.Product.ProductName" />
+                <h6>@prod.Product.ProductAuthor</h6>
+                <h6>$@string.Format("{0:f}", prod.Product.Price)</h6>
+
+                <span class="input-group-btn">
+                    <button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                </span>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+                    <p class="description">@prod.Product.Description</p>
+                    <form asp-controller="ShoppingCart" asp-action="Update">
+                        <input type="hidden" asp-for="@prod.ProductID" value="@prod.ProductID" />
+                        <input type="hidden" asp-for="@prod.Id" value="@prod.Id" />
+                        <input type="number" class="form-control text-center" value="@prod.Quantity" input asp-for="@prod.Quantity" style="inline-size:auto">
+                        <input type="submit" class="btn btn-danger" value=" Update" style="inline-size:auto"/>
+
+                    </form>
+
+            </div>
+
+            }
+
+</table>
+    @*@foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoreId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+               
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+        }
+    </tbody>*@
+    <p>
+        <a class="btn btn-sm btn-danger" asp-area="" asp-controller="StoreFront" asp-action="IndexCust">Continue Shopping</a>
+        <a class="btn btn-sm btn-danger" asp-area="" asp-controller="Order" asp-action="Create">Checkout</a>
+    </p>
+        }
+</body>
+</html>

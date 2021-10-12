@@ -1,26 +1,13 @@
-﻿
-    @if (@TempData["CustomerId"] == null)
-        {
-        Layout = "~/Views/Shared/_Layout.cshtml";
-        }
-
-    else if(@TempData["CustomerId"].ToString() == "Admin")
-{
-        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-        }
-else 
-        {
-        Layout = "~/Views/Shared/_LayoutUse.cshtml";
-        }
-
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to BibliHollow</h1>
+
     <div class="col-sm-6 px-0 d-none d-sm-block">
         <img src="https://th.bing.com/th/id/R.b53144929aa60362973256e4b03a1eee?rik=eIQliZjW%2bPbZnw&pid=ImgRaw&r=0" alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: right;">
     </div>
-   
-</div>
+
+
+

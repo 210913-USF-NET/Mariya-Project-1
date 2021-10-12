@@ -1,67 +1,73 @@
-﻿@model Models.StoreFront
+﻿@model IEnumerable<Models.Inventory>
 
 @{
     ViewData["Title"] = "IndexCust";
-    Layout = "~/Views/Shared/_LayoutUse.cshtml";
+   
 }
 
-<h1>You are shopping at @Html.DisplayNameFor(model => model.StoreCity) Location</h1>
+<h2>You are shopping at the @ViewBag.myStore.StoreCity Location</h2>
 
-<p>
 
-</p>
-@foreach (var product in Model.Inventories)
+@foreach (var g in ViewBag.Genre)
     {
-<h2> @product.Product.Genre</h2>
+    <hr />
+    <h2> @g</h2>
+    <hr />
+    <table id="prodlist">
+        @foreach (var prod in Model.Where(x => x.Product.Genre.Equals(g)))
+            {
 
-    foreach (var prod in Model.Inventories.Where(x => x.Product.Genre == product.Product.Genre))
-        {
-    <div class="col-sm-3">
-        <a asp-page="/order" asp-route-id="@prod.Product.ProductId" title="Order @prod.Product.ProductName">
-            <div class="productInfo">
-                <h3>@prod.Product.ProductName</h3>
-                <h3>@prod.Product.ProductAuthor</h3>
-                <img class="product-image img-fluid img-thumbnail" img src=@Url.Content(prod.Product.ImageName) alt="Image of @prod.Product.ProductName" />
-                <p class="description">@prod.Product.Description</p>
-            </div>
-        </a>
-        <div class="action">
-            <p class="price float-left">$@string.Format("{0:f}", product.Product.Price)</p>
-            <a class="btn btn-sm btn-danger order-button float-right" asp-page="/order" asp-route-id="@prod.Product.ProductId" title="Order @prod.Product.ProductName">Add To Shopping Cart</a>
+            @*<a asp-page="/order" asp-route-id="@prod.Product.ProductId" title="Order @prod.Product.ProductName">*@
+        <div>
+            <h5>@prod.Product.ProductName</h5>
+            <img class="product-image" img src="@Html.Raw(prod.Product.ImageName)" style="height:100px;width:100px;" alt="Image of @prod.Product.ProductName" />
+            <h6>@prod.Product.ProductAuthor</h6>
+            <h6>$@string.Format("{0:f}", prod.Product.Price)</h6>
+            @*<a class="btn btn-sm btn-danger" asp-area="" asp-controller="ShoppingCart" asp-route-quantity="@prod.Quantity" asp-action="Create">Add To Shopping Cart</a>*@
+            <p class="description">@prod.Product.Description</p>
+            <form asp-controller="ShoppingCart" asp-action="Create" >
+                <input type="hidden" asp-for="@prod.InvProductID" value="@prod.InvProductID" />
+                <input type="number" class="form-control text-center" value="1" max="@prod.Quantity" input asp-for="@prod.Quantity" style="inline-size:fit-content">
+                <input type="submit" class="btn btn-warning" value=" Add To Cart"/>
+      
+                    </form>
         </div>
-    </div>
-        }
+          
+            }
+
+    </table>
+    @*if()*@
     }
 @*<tbody>
-    @foreach (var item in Model.Inventories)
-        {
-
-        <td>
-            @Html.DisplayFor(modelItem => item.Product.Genre)
-        </td>
-        foreach (var prod in Model.Inventories)
+        @foreach (var item in Model.Inventories)
             {
+
             <td>
-                <img src=@Url.Content(prod.Product.ImageName) alt="IMAGES" />
+                @Html.DisplayFor(modelItem => item.Product.Genre)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => prod.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => prod.Product.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => prod.Product.ProductAuthor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => prod.Product.Description)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+            foreach (var prod in Model.Inventories)
+                {
+                <td>
+                    <img src=@Url.Content(prod.Product.ImageName) alt="IMAGES" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => prod.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => prod.Product.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => prod.Product.ProductAuthor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => prod.Product.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+                }
             }
-        }
-</tbody>
-    </table>*@
+    </tbody>
+        </table>*@

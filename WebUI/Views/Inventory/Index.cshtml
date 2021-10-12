@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<Models.Inventory>
 
 @{
-    ViewData["Title"] = "Index1";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
-
+@*asp-route-id="@prod.Product.ProductId"*@
 <p>
-    <a asp-action="Create" asp-route-storeId="@ViewData["Int"]">Create New</a>
+    <a asp-action="Create" asp-route-storeId="@ViewBag.Store.StoreFrontId">Create New</a>
 </p>
 <table class="table">
     <thead>
