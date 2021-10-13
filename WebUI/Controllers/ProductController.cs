@@ -45,7 +45,7 @@ namespace WebUI.Controllers
                 {
                 
                     _bl.AddProduct(prod);
-                    
+                Log.Information("Product created");
                 return RedirectToAction(nameof(Index));
                 }
             catch (Exception e)
@@ -94,6 +94,7 @@ namespace WebUI.Controllers
             try
                 {
                 _bl.RemoveProduct(id);
+                Log.Information("Product delted");
                 return RedirectToAction(nameof(Index));
                 }
             catch

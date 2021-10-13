@@ -31,6 +31,11 @@ namespace WebUI.Controllers
             
             return View();
             }
+        public ActionResult Login()
+            {
+
+            return View();
+            }
 
         // POST: CustomerController/Create
         [HttpPost]
@@ -41,7 +46,7 @@ namespace WebUI.Controllers
                 {
                 
                     _bl.AddCustomer(cust);
-                    
+                Log.Information("Customer Created");
                 return RedirectToAction(nameof(Index));
                 }
             catch (Exception e)

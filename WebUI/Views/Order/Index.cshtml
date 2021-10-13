@@ -5,26 +5,25 @@
     listItems.Add(new SelectListItem
         {
         Text = "Newest",
-        Value = "TimeLastestToOldest",
-        Selected = true
+        Value = "Newest",
         });
     listItems.Add(new SelectListItem
         {
         Text = "Oldest",
-        Value = "TimeOldestToLastest",
+        Value = "Oldest",
 
         });
     listItems.Add(new SelectListItem
         {
         Text = "Total Lowest",
-        Value = "CostLowestToHighest"
+        Value = "Total Lowest"
         });
     listItems.Add(new SelectListItem
         {
         Text = "Total Highest",
-        Value = "CostHighestToLowest"
+        Value = "Total Highest"
         });
-
+    
 }
 <!DOCTYPE html>
 
@@ -85,10 +84,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>
+
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("LineItem", "Index", "LineItem", new { id = item.OrderId }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        @Html.ActionLink("LineItems", "Index", "LineItems", new { id = item.OrderId }) |
+
                     </td>
                 </tr>
                 }

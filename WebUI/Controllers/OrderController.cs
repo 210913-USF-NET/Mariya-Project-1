@@ -24,7 +24,7 @@ namespace WebUI.Controllers
                 Response.Cookies.Delete("HistoryOrder");
                 }
             Response.Cookies.Append("HistoryOrder", selectedBatchId);
-            return RedirectToAction("Index", "Order");
+            return RedirectToAction("Index", "Order" );
             }
         public ActionResult CustHistoryOrder(string selectedBatchId)
             {
@@ -38,23 +38,35 @@ namespace WebUI.Controllers
         // GET: OrderController
         public ActionResult Index(int id)
             {
+            int input = id;
+            //Request.Cookies["Id"];
+            //Response.Cookies.Append("Id", id.ToString());
+            //var cookie = Request.Cookies["Id"];
+            //int input = int.Parse(cookie);
+  
             List<Order> orders = new List<Order>();
-
-            switch (Request.Cookies["HistoryOrder"])
+            if(Request.Cookies["HistoryOrder"] != null)
                 {
-                case "Newest":
-                    orders = _bl.AdminOrderHistoryDA(id);
-                    break;
-                case "Oldest":
-                    orders = _bl.AdminOrderHistoryDD(id);
-                    break;
-                case "Total Highest":
-                    orders = _bl.AdminOrderHistoryTD(id);
-                    break;
-                case "Total Lowest":
-                    orders = _bl.AdminOrderHistoryTA(id);
-                    break;
+                switch (Request.Cookies["HistoryOrder"])
+                    {
+                    case "Newest":
+                        orders = _bl.AdminOrderHistoryDA(input);
+                        break;
+                    case "Oldest":
+                        orders = _bl.AdminOrderHistoryDD(input);
+                        break;
+                    case "Total Highest":
+                        orders = _bl.AdminOrderHistoryTD(input);
+                        break;
+                    case "Total Lowest":
+                        orders = _bl.AdminOrderHistoryTA(input);
+                        break;
 
+                    }
+                }
+            else
+                {
+                orders = _bl.AdminOrderHistoryDA(input);
                 }
             return View(orders);
             }
@@ -63,7 +75,8 @@ namespace WebUI.Controllers
             var userId = HttpContext.Request.Cookies["CustomerId"];
             int custId = int.Parse(userId);
             List<Order> orders = new List<Order>();
-
+            if (Request.Cookies["HistoryOrder"] != null)
+                {
                 switch (Request.Cookies["HistoryOrder"])
                     {
                     case "Newest":
@@ -78,9 +91,13 @@ namespace WebUI.Controllers
                     case "Total Lowest":
                         orders = _bl.AdminOrderHistoryTA(custId);
                         break;
-                    
+                    }
                 }
-            return View(orders);
+            else
+                {
+                orders = _bl.AdminOrderHistoryDA(custId);
+                }
+                return View(orders);
             }
         public ActionResult IndexCust()
             {
@@ -146,7 +163,7 @@ namespace WebUI.Controllers
                // checkedout.LineItems = _bl.LineItemsListByOrderID((int)checkedout.OrderId);
                 _bl.UpdateOrder(checkedout);
                 _bl.EmptyShoppingCart(cart, custId);
-             
+                Log.Information("OrderCreated");
                 return RedirectToAction(nameof(IndexCust));
                 }
             catch(Exception e)

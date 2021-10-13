@@ -68,6 +68,7 @@ namespace WebUI.Controllers
 
 
                 _bl.AddShoppingCart(mycart);
+                Log.Information("Cart created");
                 return RedirectToAction(nameof(Index));
                 }
             catch (Exception e)
@@ -99,6 +100,7 @@ namespace WebUI.Controllers
                 }
 
                 _bl.UpdateShoppingCart(mycart);
+                Log.Information("Cart Updated");
                 return RedirectToAction(nameof(Index));
                 }
             catch (Exception e)

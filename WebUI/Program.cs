@@ -15,10 +15,7 @@ namespace WebUI
 
         public static void Main(string[] args)
             {
-            Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
-            .WriteTo.File("../logs/logs.txt", rollingInterval: RollingInterval.Day)
-            .CreateLogger();
+            Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.File("../Logs/logs.txt", rollingInterval: RollingInterval.Day).CreateLogger();
 
             Log.Information("Application Starting...");
             CreateHostBuilder(args).Build().Run();
@@ -28,7 +25,10 @@ namespace WebUI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    Log.Information("Application Starting........");
                     webBuilder.UseStartup<Startup>();
+                    Log.Information("Application ended.");
+                    Log.CloseAndFlush();
                 });
 
 

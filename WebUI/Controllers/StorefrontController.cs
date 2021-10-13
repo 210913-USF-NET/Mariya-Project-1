@@ -62,6 +62,7 @@ namespace WebUI.Controllers
             try
                 {
                 _bl.AddStoreFront(store);
+                Log.Information("Store created");
                 return RedirectToAction(nameof(Index));
                 }
             catch (Exception e)
@@ -86,6 +87,7 @@ namespace WebUI.Controllers
             try
                 {
                 _bl.UpdateStoreFront(store);
+                Log.Information("store updated");
                 return RedirectToAction(nameof(Index));
                 }
             catch (Exception e)
@@ -99,6 +101,7 @@ namespace WebUI.Controllers
         public ActionResult Delete(int id)
             {
             StoreFront toedit = _bl.GetOneStoreFront(id);
+            
             return View(toedit);
             }
 
@@ -110,6 +113,7 @@ namespace WebUI.Controllers
             try
                 {
                 _bl.RemoveStoreFront(id);
+                Log.Information("Store delted");
                 return RedirectToAction(nameof(Index));
                 }
             catch (Exception e)
