@@ -22,6 +22,7 @@ namespace WebUI.Controllers
         public ActionResult Index()
             {
             List<Customer> allCustomer = _bl.GetAllCustomers();
+
             return View(allCustomer);
             }
 
@@ -45,9 +46,11 @@ namespace WebUI.Controllers
             try
                 {
                 
-                    _bl.AddCustomer(cust);
+                Customer custcreated = _bl.AddCustomer(cust);
+                HttpContext.Response.Cookies.Append("CustomerId", custcreated.CustomerId.ToString());
+                HttpContext.Response.Cookies.Append("MyStore", custcreated.CustomerDefaultStoreID.ToString());
                 Log.Information("Customer Created");
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("IndexCust", "StoreFront");
                 }
             catch (Exception e)
                 {
@@ -185,7 +188,7 @@ namespace WebUI.Controllers
                     ViewBag.Customer = loggedin;
                     HttpContext.Response.Cookies.Append("CustomerId", loggedin.CustomerId.ToString());
                     HttpContext.Response.Cookies.Append("MyStore", loggedin.CustomerDefaultStoreID.ToString());
-                    return RedirectToAction("Index", "Home", loggedin);
+                    return RedirectToAction("IndexCust", "StoreFront");
 
                     }
                 }
