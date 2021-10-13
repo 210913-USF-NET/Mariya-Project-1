@@ -1,18 +1,19 @@
-﻿@model Models.Order
+﻿@model IEnumerable<Models.LineItem>
 @{
-    ViewData["Title"] = "IndexCust";
+    ViewData["Title"] = "Index";
 
 }
+
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Thank you for shopping!</title>
+    <title>Order Details</title>
 </head>
 <body>
-    <h3>Your Order Total is: $@string.Format("{0:f}", Model.OrderTotal) </h3>
-    <h5>Order Date @string.Format("Order was placed {0:d} at {0:t}", Model.Date)</h5>
+    <p>
+    </p>
     <table class="table">
         <thead>
             <tr>
@@ -35,7 +36,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.LineItems)
+            @foreach (var item in Model)
                 {
                 <tr>
                     <td>

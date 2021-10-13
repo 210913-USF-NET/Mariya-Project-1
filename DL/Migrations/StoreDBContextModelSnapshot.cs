@@ -254,37 +254,33 @@ namespace DL.Migrations
                 {
                     b.HasOne("Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("InvProductID");
 
                     b.HasOne("Models.StoreFront", null)
                         .WithMany("Inventories")
-                        .HasForeignKey("StoreFrontId");
+                        .HasForeignKey("InvStoreID");
 
                     b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Models.LineItem", b =>
                 {
-                    b.HasOne("Models.Order", "Order")
+                    b.HasOne("Models.Order", null)
                         .WithMany("LineItems")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("LineOrderID");
 
                     b.HasOne("Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Order");
+                        .HasForeignKey("LineProductID");
 
                     b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Models.Order", b =>
                 {
-                    b.HasOne("Models.Customer", "Customer")
+                    b.HasOne("Models.Customer", null)
                         .WithMany("OrdersList")
-                        .HasForeignKey("CustomerId");
-
-                    b.Navigation("Customer");
+                        .HasForeignKey("OrderCustomerID");
                 });
 
             modelBuilder.Entity("Models.ShoppingCart", b =>
@@ -292,7 +288,7 @@ namespace DL.Migrations
                     b.HasOne("Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        //.OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");

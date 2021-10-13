@@ -5,95 +5,85 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using Serilog;
 using StoreBL;
 
 namespace WebUI.Controllers
     {
-    public class ProductController : Controller
+    public class LineItemsController : Controller
         {
-        private IBL _bl;
-        public ProductController(IBL bl)
+        private readonly IBL _bl;
+        public LineItemsController(IBL bl)
             {
             _bl = bl;
             }
-        // GET: HomeController1
-        public ActionResult Index()
+        // GET: LineItemsController
+        public ActionResult Index(int id)
             {
-            List<Product> allProd = _bl.ProductsList();
-            return View(allProd);
+            List<LineItem> myorders = _bl.LineItemsListByOrderID(id);
+            return View(myorders);
             }
 
-        // GET: HomeController1/Details/5
+        // GET: LineItemsController/Details/5
         public ActionResult Details(int id)
             {
             return View();
             }
 
-        // GET: HomeController1/Create
+        // GET: LineItemsController/Create
         public ActionResult Create()
             {
             return View();
             }
 
-        // POST: HomeController1/Create
+        // POST: LineItemsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product prod)
+        public ActionResult Create(IFormCollection collection)
             {
             try
                 {
-                
-                    _bl.AddProduct(prod);
-                    
                 return RedirectToAction(nameof(Index));
                 }
-            catch (Exception e)
+            catch
                 {
-                Log.Information($"{e}");
                 return View();
                 }
             }
 
-        // GET: HomeController1/Edit/5
+        // GET: LineItemsController/Edit/5
         public ActionResult Edit(int id)
             {
-            Product prodToEdit = _bl.GetOneProduct(id);
-            return View(prodToEdit);
-            }
-
-        // POST: HomeController1/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product prod)
-            {
-            try
-                {
-                _bl.UpdateProduct(prod);
-                return RedirectToAction(nameof(Index));
-                }
-            catch (Exception e)
-                {
-                Log.Information($"{e}");
-                return RedirectToAction(nameof(Index));
-                }
-            }
-
-        // GET: HomeController1/Delete/5
-        public ActionResult Delete()
-            {
-   
             return View();
             }
 
-        // POST: HomeController1/Delete/5
+        // POST: LineItemsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public ActionResult Edit(int id, IFormCollection collection)
             {
             try
                 {
-                _bl.RemoveProduct(id);
+                return RedirectToAction(nameof(Index));
+                }
+            catch
+                {
+                return View();
+                }
+            }
+
+        // GET: LineItemsController/Delete/5
+        public ActionResult Delete(int id)
+            {
+            return View();
+            }
+
+        // POST: LineItemsController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+            {
+            try
+                {
                 return RedirectToAction(nameof(Index));
                 }
             catch

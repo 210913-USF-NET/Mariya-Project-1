@@ -20,7 +20,7 @@ namespace WebUI.Controllers
           
             }
 
-        public IActionResult Index(Customer customer)
+        public IActionResult Index()
             {
             return View();
             }

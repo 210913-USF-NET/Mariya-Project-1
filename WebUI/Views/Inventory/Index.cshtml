@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -25,31 +24,36 @@
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
+            <th>
+               Product Name
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InventoryID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvStoreID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvProductID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InventoryID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvStoreID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvProductID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.InventoryID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.InventoryID })
+            </td>
+        </tr>
             }
     </tbody>
 </table>

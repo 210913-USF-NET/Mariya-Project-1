@@ -52,8 +52,8 @@
             </td>
             <td>
                 @Html.ActionLink("Inventory", "Index", "Inventory", new { id = item.StoreFrontId }) |
+                @Html.ActionLink("Order", "Index", "Order", new { id = item.StoreFrontId }) |
                 @Html.ActionLink("Edit", "Edit", new { id = item.StoreFrontId }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.StoreFrontId })
             </td>
         </tr>

@@ -34,13 +34,14 @@ namespace DL
         List<Inventory> GetInventoryByStoreID(int storeId);
         List<Inventory> GetInventoryForAdmin(int input);
         Inventory InventoryToUpdate(Inventory inv);
+        Inventory GetInventoryByinvID(int id);
         void InventoryToRemove(int id);
 
         ShoppingCart AddShoppingCart(ShoppingCart shoppingCart);
         List<ShoppingCart> GetShoppingCartByCustId(int CustId);
         ShoppingCart UpdateShoppingCart(ShoppingCart shoppingCart);
         void RemoveItemFromShoppingCart(ShoppingCart shoppingCart);
-        void EmptyShoppingCart(List<ShoppingCart> mycart);
+        void EmptyShoppingCart(List<ShoppingCart> mycart, int custId);
 
         LineItem AddLineItem(LineItem item);
         List<LineItem> LineItemsListByOrderID(int orderId);
@@ -49,8 +50,14 @@ namespace DL
 
         Order AddNewOrder(Order newOrd);
         Order UpdateOrder(Order myOrder);
-        
-        
+        Order GetLastOrderPlacedbyCust(int custId);
+        List<Order> AdminOrderHistoryDA(int id);
+        List<Order> AdminOrderHistoryDD(int id);
+        List<Order> AdminOrderHistoryTA(int id);
+        List<Order> AdminOrderHistoryTD(int id);
+
+
+
         List<Order> ListOfOrdersByCust(Customer cust);
         List<Order> ListOrder();
 

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DL.Migrations
 {
     [DbContext(typeof(StoreDBContext))]
-    [Migration("20211008223855_seventh")]
-    partial class seventh
+    [Migration("20211012180501_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -113,9 +113,6 @@ namespace DL.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("InventoriesInventoryID")
-                        .HasColumnType("integer");
-
                     b.Property<int>("LineOrderID")
                         .HasColumnType("integer");
 
@@ -125,6 +122,9 @@ namespace DL.Migrations
                     b.Property<long?>("OrderId")
                         .HasColumnType("bigint");
 
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
@@ -133,9 +133,9 @@ namespace DL.Migrations
 
                     b.HasKey("LineItemId");
 
-                    b.HasIndex("InventoriesInventoryID");
-
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("LineItems");
                 });
@@ -199,6 +199,32 @@ namespace DL.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Models.ShoppingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("CustId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("ShoppingCarts");
+                });
+
             modelBuilder.Entity("Models.StoreFront", b =>
                 {
                     b.Property<int>("StoreFrontId")
@@ -229,40 +255,45 @@ namespace DL.Migrations
             modelBuilder.Entity("Models.Inventory", b =>
                 {
                     b.HasOne("Models.Product", "Product")
-                        .WithMany("Inventories")
+                        .WithMany()
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("Models.StoreFront", "StoreFront")
+                    b.HasOne("Models.StoreFront", null)
                         .WithMany("Inventories")
                         .HasForeignKey("StoreFrontId");
 
                     b.Navigation("Product");
-
-                    b.Navigation("StoreFront");
                 });
 
             modelBuilder.Entity("Models.LineItem", b =>
                 {
-                    b.HasOne("Models.Inventory", "Inventories")
-                        .WithMany("LineItemsList")
-                        .HasForeignKey("InventoriesInventoryID");
-
-                    b.HasOne("Models.Order", "Order")
+                    b.HasOne("Models.Order", null)
                         .WithMany("LineItems")
                         .HasForeignKey("OrderId");
 
-                    b.Navigation("Inventories");
+                    b.HasOne("Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
 
-                    b.Navigation("Order");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Models.Order", b =>
                 {
-                    b.HasOne("Models.Customer", "Customer")
+                    b.HasOne("Models.Customer", null)
                         .WithMany("OrdersList")
                         .HasForeignKey("CustomerId");
+                });
 
-                    b.Navigation("Customer");
+            modelBuilder.Entity("Models.ShoppingCart", b =>
+                {
+                    b.HasOne("Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Models.Customer", b =>
@@ -270,19 +301,9 @@ namespace DL.Migrations
                     b.Navigation("OrdersList");
                 });
 
-            modelBuilder.Entity("Models.Inventory", b =>
-                {
-                    b.Navigation("LineItemsList");
-                });
-
             modelBuilder.Entity("Models.Order", b =>
                 {
                     b.Navigation("LineItems");
-                });
-
-            modelBuilder.Entity("Models.Product", b =>
-                {
-                    b.Navigation("Inventories");
                 });
 
             modelBuilder.Entity("Models.StoreFront", b =>

@@ -191,19 +191,55 @@ namespace StoreBL
             _repo.RemoveItemFromShoppingCart(shoppingCart);
             }
 
-        public void EmptyShoppingCart(List<ShoppingCart> mycart)
+        public void EmptyShoppingCart(List<ShoppingCart> mycart, int custId)
             {
-            _repo.EmptyShoppingCart(mycart);
+            _repo.EmptyShoppingCart(mycart,custId);
             }
 
-        public void InventoryToRemove(List<Inventory> items)
+        public void InventoryToRemove(int id)
             {
-            throw new NotImplementedException();
+            _repo.InventoryToRemove(id);
             }
 
         public Inventory InventoryToUpdate(Inventory inv)
             {
+           
             return _repo.InventoryToUpdate(inv);
+            }
+
+        public Order UpdateOrder(Order myOrder)
+            {
+            return _repo.UpdateOrder(myOrder);
+            }
+
+        public Order GetLastOrderPlacedbyCust(int custId)
+            {
+            return _repo.GetLastOrderPlacedbyCust(custId);
+            }
+
+        public Inventory GetInventoryByinvID(int id)
+            {
+            return _repo.GetInventoryByinvID(id);
+            }
+
+        public List<Order> AdminOrderHistoryDA(int id)
+            {
+            return _repo.AdminOrderHistoryDA(id);
+            }
+
+        public List<Order> AdminOrderHistoryDD(int id)
+            {
+            return _repo.AdminOrderHistoryDD(id);
+            }
+
+        public List<Order> AdminOrderHistoryTA(int id)
+            {
+            return _repo.AdminOrderHistoryTA(id);
+            }
+
+        public List<Order> AdminOrderHistoryTD(int id)
+            {
+            return _repo.AdminOrderHistoryTD(id);
             }
         }
     }

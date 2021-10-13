@@ -27,24 +27,22 @@ namespace WebUI.Controllers
             ViewBag.Store = _bl.GetOneStoreFront(id);
             //ViewData["Store"] = id;
             List<Inventory> myInventory = _bl.GetInventoryByStoreID(id);
+            foreach(var i in myInventory)
+                {
+                i.Product = _bl.GetOneProduct(i.InvProductID);
+                }
             return View(myInventory);
             }
 
 
-        // GET: InventoryController/Details/5
-        public ActionResult Details(int id)
-            {
-            return View();
-            }
 
         // GET: InventoryController/Create
-        public ActionResult Create(int storeId)
+        public ActionResult Create(string storeId)
             {
+            int store = int.Parse(storeId);
             //int storenum = int.Parse(storeId);
-            ViewBag.Store = _bl.GetOneStoreFront(storeId);
-            ViewData["Store"] = storeId;
-            //Session["Store"] = storeId;
-            return View(new Inventory(storeId));
+            ViewBag.Store = _bl.GetOneStoreFront(store);
+            return View(new Inventory(store));
             }
 
         // POST: InventoryController/Create
@@ -53,7 +51,7 @@ namespace WebUI.Controllers
         public ActionResult Create(Inventory inventory)
             {
             Product prod = _bl.GetOneProduct(inventory.InvProductID);
-            inventory.Product = prod;
+
             try
                 {
                 Inventory inven = _bl.AddInventory(inventory);
@@ -70,7 +68,9 @@ namespace WebUI.Controllers
         // GET: InventoryController/Edit/5
         public ActionResult Edit(int id)
             {
-            return View();
+            Inventory inv =_bl.GetInventoryByinvID(id);
+            inv.Product = _bl.GetOneProduct(inv.InvProductID);
+            return View(inv);
             }
 
         // POST: InventoryController/Edit/5
@@ -91,23 +91,26 @@ namespace WebUI.Controllers
             }
 
         // GET: InventoryController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete()
             {
+            //Inventory inv = _bl.GetInventoryByinvID(id);
+            //inv.Product = _bl.GetOneProduct(inv.InvProductID);
             return View();
             }
 
         // POST: InventoryController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id)
             {
             try
                 {
+                _bl.InventoryToRemove(id);
                 return RedirectToAction(nameof(Index));
                 }
             catch
                 {
-                return View();
+                return RedirectToAction(nameof(Index));
                 }
             }
         }

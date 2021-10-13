@@ -46,11 +46,7 @@ namespace WebUI.Controllers
             return View(myInventory);
             }
 
-        // GET: StorefrontController/Details/5
-        public ActionResult Details(int id)
-            {
-            return View();
-            }
+
 
         // GET: StorefrontController/Create
         public ActionResult Create()

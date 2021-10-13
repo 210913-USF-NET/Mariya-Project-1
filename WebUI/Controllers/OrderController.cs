@@ -17,27 +17,86 @@ namespace WebUI.Controllers
             {
             _bl = bl;
             }
-        // GET: OrderController
-        public ActionResult Index()
+        public ActionResult HistoryOrder(string selectedBatchId)
             {
-            List<LineItem> myorder = _bl.LineItemsListByOrderID(int.Parse(ViewBag.Order));
-            return View(myorder);
+            if(Request.Cookies["HistoryOrder"] != null)
+                {
+                Response.Cookies.Delete("HistoryOrder");
+                }
+            Response.Cookies.Append("HistoryOrder", selectedBatchId);
+            return RedirectToAction("Index", "Order");
+            }
+        public ActionResult CustHistoryOrder(string selectedBatchId)
+            {
+            if (Request.Cookies["HistoryOrder"] != null)
+                {
+                Response.Cookies.Delete("HistoryOrder");
+                }
+            Response.Cookies.Append("HistoryOrder", selectedBatchId);
+            return RedirectToAction("IndexHCust", "Order");
+            }
+        // GET: OrderController
+        public ActionResult Index(int id)
+            {
+            List<Order> orders = new List<Order>();
+
+            switch (Request.Cookies["HistoryOrder"])
+                {
+                case "Newest":
+                    orders = _bl.AdminOrderHistoryDA(id);
+                    break;
+                case "Oldest":
+                    orders = _bl.AdminOrderHistoryDD(id);
+                    break;
+                case "Total Highest":
+                    orders = _bl.AdminOrderHistoryTD(id);
+                    break;
+                case "Total Lowest":
+                    orders = _bl.AdminOrderHistoryTA(id);
+                    break;
+
+                }
+            return View(orders);
+            }
+        public ActionResult IndexHCust()
+            {
+            var userId = HttpContext.Request.Cookies["CustomerId"];
+            int custId = int.Parse(userId);
+            List<Order> orders = new List<Order>();
+
+                switch (Request.Cookies["HistoryOrder"])
+                    {
+                    case "Newest":
+                        orders = _bl.AdminOrderHistoryDA(custId);
+                        break;
+                    case "Oldest":
+                        orders = _bl.AdminOrderHistoryDD(custId);
+                        break;
+                    case "Total Highest":
+                        orders = _bl.AdminOrderHistoryTD(custId);
+                        break;
+                    case "Total Lowest":
+                        orders = _bl.AdminOrderHistoryTA(custId);
+                        break;
+                    
+                }
+            return View(orders);
             }
         public ActionResult IndexCust()
             {
-            return View();
-            }
-
-        // GET: OrderController/Details/5
-        public ActionResult Details(int id)
-            {
-            return View();
+            var userId = HttpContext.Request.Cookies["CustomerId"];
+            int custId = int.Parse(userId);
+            
+            Order myOrder = _bl.GetLastOrderPlacedbyCust(custId);
+            List<LineItem> linelist = _bl.LineItemsListByOrderID((int)myOrder.OrderId);
+            myOrder.LineItems = linelist;
+            return View(myOrder);
             }
 
         // GET: OrderController/Create
         public ActionResult Create(int custId, List<int> lineId)
             {
-            return View();
+            return RedirectToAction(nameof(IndexCust));
             }
 
         // POST: OrderController/Create
@@ -51,7 +110,7 @@ namespace WebUI.Controllers
             int custId = int.Parse(userId);
             var id = HttpContext.Request.Cookies["MyStore"];
             int Storeid = int.Parse(id);
-            decimal mytotal = decimal.Parse(ViewBag.Total);
+            decimal mytotal = 1.00M;
             //need to update
             List<Inventory> inventoUpdate= _bl.GetInventoryByStoreID(Storeid);
             //need to go through cart and update above tables and then delete cart and ViewBag total
@@ -60,16 +119,18 @@ namespace WebUI.Controllers
             newOrder.OrderCustomerID = custId;
             newOrder.OrderStoreID = Storeid;
             newOrder.OrderTotal = mytotal;
-            Order checkedout = _bl.AddNewOrder(newOrder);
-                ViewBag.Order = checkedout.OrderId.ToString();
+            
+                Order checkedout = _bl.AddNewOrder(newOrder);
+                ViewBag.Order = checkedout;
                 foreach(var item in cart)
                     {
                     LineItem linelist = new LineItem();
                     linelist.LineOrderID = (int)checkedout.OrderId;
                     linelist.LineProductID = item.ProductID;
                     linelist.Quantity = (int)item.Quantity;
-                    linelist.Product = item.Product;
+
                     linelist.StoreId = item.StoreId;
+                    mytotal += (decimal)item.Quantity * (item.Product.Price);
                     _bl.AddLineItem(linelist);
                     foreach(var inv in inventoUpdate)
                         {
@@ -81,15 +142,17 @@ namespace WebUI.Controllers
                         _bl.InventoryToUpdate(inv);
                         }
                     }
-                checkedout.LineItems = _bl.LineItemsListByOrderID((int)checkedout.OrderId);
-                _bl.EmptyShoppingCart(cart);
-                ViewBag.Total = null;
-                return RedirectToAction(nameof(Index));
+                checkedout.OrderTotal = mytotal;
+               // checkedout.LineItems = _bl.LineItemsListByOrderID((int)checkedout.OrderId);
+                _bl.UpdateOrder(checkedout);
+                _bl.EmptyShoppingCart(cart, custId);
+             
+                return RedirectToAction(nameof(IndexCust));
                 }
             catch(Exception e)
                 {
                 Log.Information($"{e}");
-                return View();
+                return RedirectToAction(nameof(IndexCust));
                 }
             }
 

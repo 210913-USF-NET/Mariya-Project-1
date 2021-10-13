@@ -25,16 +25,6 @@ namespace WebUI.Controllers
             return View(allCustomer);
             }
 
-        // GET: CustomerController/Details/5
-        public ActionResult login(int id)
-            {
-            return View();
-            }
-        // GET: CustomerController/Details/5
-        public ActionResult Details(int id)
-            {
-            return View();
-            }
         // GET: CustomerController/Create
         public ActionResult Create()
             {
@@ -64,38 +54,39 @@ namespace WebUI.Controllers
         // GET: CustomerController/Edit/5
         public ActionResult Edit(int id)
             {
+
+            Customer toEdit = _bl.GetOneCustomerById(id);
+            return View(toEdit);
+            }
+
+        // POST: CustomerController/Edit/5
+
+        // GET: CustomerController/Edit/5
+        public ActionResult Profile()
+            {
             var userId = HttpContext.Request.Cookies["CustomerId"];
             int custId = int.Parse(userId);
             Customer toEdit = _bl.GetOneCustomerById(custId);
             return View(toEdit);
             }
-
-        // POST: CustomerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Profile(Customer cust)
+        public ActionResult Profile(int id, Customer cust)
             {
             try
                 {
                 var userId = HttpContext.Request.Cookies["CustomerId"];
                 int custId = int.Parse(userId);
-                Customer toEdit= _bl.UpdateCustomer(cust);
+                Customer toEdit = _bl.UpdateCustomer(cust);
                 HttpContext.Response.Cookies.Append("MyStore", toEdit.CustomerDefaultStoreID.ToString());
-                return RedirectToAction("Home", "Index");
+                return RedirectToAction("Index","Home");
                 }
             catch (Exception e)
                 {
                 Log.Information($"{e}");
-                return RedirectToAction("Home", "Index");
+                return RedirectToAction(nameof(Index));
                 }
             }
-        // GET: CustomerController/Edit/5
-        public ActionResult Profile(int id)
-            {
-            Customer toEdit = _bl.GetOneCustomerById(id);
-            return View(toEdit);
-            }
-
         // POST: CustomerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -105,6 +96,7 @@ namespace WebUI.Controllers
                 {
 
                 Customer toEdit = _bl.UpdateCustomer(cust);
+                HttpContext.Response.Cookies.Append("CustomerId", toEdit.CustomerId.ToString());
                 HttpContext.Response.Cookies.Append("MyStore", toEdit.CustomerDefaultStoreID.ToString());
                 return RedirectToAction(nameof(Index));
                 }

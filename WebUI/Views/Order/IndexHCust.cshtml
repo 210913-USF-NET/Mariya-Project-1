@@ -1,50 +1,53 @@
 ﻿@model IEnumerable<Models.Order>
-@{ 
+
+@{
     List<SelectListItem> listItems = new List<SelectListItem>();
 
     listItems.Add(new SelectListItem
         {
         Text = "Newest",
-        Value = "TimeLastestToOldest",
-        Selected = true
+        Value = "Newest",
         });
     listItems.Add(new SelectListItem
         {
         Text = "Oldest",
-        Value = "TimeOldestToLastest",
+        Value = "Oldest",
 
         });
     listItems.Add(new SelectListItem
         {
         Text = "Total Lowest",
-        Value = "CostLowestToHighest"
+        Value = "Total Lowest"
         });
     listItems.Add(new SelectListItem
         {
         Text = "Total Highest",
-        Value = "CostHighestToLowest"
+        Value = "Total Highest"
         });
 
+
+
 }
+
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <title>Order History</title>
 </head>
-<body>
 
     <table class="table">
         <thead>
-            @using (Html.BeginForm("HistoryOrder", "Order"))
+            @using (Html.BeginForm("CustHistoryOrder", "Order"))
                 {
 
-                @Html.DropDownList("selectedBatchId", listItems, new
-                {
-                    title = "Sort",
-                    onchange = "submit();"
-                });
+                @Html.DropDownList("selectedBatchId", listItems,
+               new
+                   {
+                   title = "Sort",
+                   @onchange = "submit();"
+                   });
 
                 }
             <tr>
@@ -87,12 +90,12 @@
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("LineItem", "Index", "LineItem", new { id = item.OrderId }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                         @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                     </td>
                 </tr>
                 }
         </tbody>
     </table>
-</body>
+
 </html>

@@ -8,8 +8,8 @@ namespace Models
             {
             //this.InvProductID = Product.ProductId;
             this.Product = new Product(InvProductID);
-  
-            
+
+
             //this.StoreFront = new StoreFront(InvStoreID);
             }
         public Inventory(int id) : this()

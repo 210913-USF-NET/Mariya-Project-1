@@ -35,7 +35,7 @@ namespace WebUI.Controllers
                 item.Product = _bl.GetOneProduct(item.ProductID);
                 item.CustId = custId;
                 item.StoreId = Storeid;
-                sum += item.Product.Price;
+                sum += item.Product.Price * (decimal)item.Quantity;
                 }
             ViewBag.Total = sum.ToString();
             return View(myCart);
@@ -128,25 +128,5 @@ namespace WebUI.Controllers
                 }
             }
 
-        // GET: ShoppingCartController/Delete/5
-        public ActionResult Delete(int id)
-            {
-            return View();
-            }
-
-        // POST: ShoppingCartController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-            {
-            try
-                {
-                return RedirectToAction(nameof(Index));
-                }
-            catch
-                {
-                return View();
-                }
-            }
         }
     }
