@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<Models.Order>
-@{ 
+@{
+    ViewData["Title"] = "Index";
+
+}
+@{
     List<SelectListItem> listItems = new List<SelectListItem>();
 
     listItems.Add(new SelectListItem
@@ -23,11 +27,11 @@
         Text = "Total Highest",
         Value = "Total Highest"
         });
-    
+
 }
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
