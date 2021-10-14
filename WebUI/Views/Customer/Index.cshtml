@@ -79,9 +79,6 @@
             </td>
 
             <td>
-                @*<form>*@
-                    @*<input type="hidden" class="form-control" value="@item.CustomerId"/>
-                </form>*@
 
                 @Html.ActionLink("Order", "Index", "Order", new { id = item.CustomerId }) |
                 @Html.ActionLink("Edit", "Edit", new { id = item.CustomerId }) |
