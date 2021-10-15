@@ -13,7 +13,7 @@ namespace WebUI.Controllers
     {
     public class StorefrontController : Controller
         {
-        private IBL _bl;
+        private readonly IBL _bl;
         public StorefrontController(IBL bl)
             {
             _bl = bl;
@@ -30,8 +30,7 @@ namespace WebUI.Controllers
             {
             var mystore = HttpContext.Request.Cookies["MyStore"];
             int Storeid = int.Parse(mystore);
-           
-            //int Id = int.Parse(Storeid);
+
             List<string> genreList = _bl.ProdGenreList();
             ViewBag.Genre = genreList;
             StoreFront allStore = _bl.GetStoreByCustomerId(Storeid);
@@ -40,7 +39,7 @@ namespace WebUI.Controllers
             foreach (var prod in myInventory)
                 {
                 prod.Product = _bl.GetOneProduct(prod.InvProductID);
-                //prod.Genre = genre;
+
                 };
             
             return View(myInventory);

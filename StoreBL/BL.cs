@@ -9,14 +9,14 @@ namespace StoreBL
 {
     public class BL : IBL
     {
-        private IRepo _repo;
+        private readonly IRepo _repo;
         public BL(IRepo repo)
         {
             _repo = repo;
         }
         public Customer AddCustomer(Customer newCustomer)
             {
-            //newCustomer.CustomerId = new Guid();
+
             return _repo.AddCustomer(newCustomer);
             }
         public List<Customer> GetCustomersByName(string fname, string lname)
@@ -69,10 +69,7 @@ namespace StoreBL
             {
             return _repo.AddProduct(newProduct);
             }
-        //public decimal ShoppingCartTotal(Dictionary<Product, int> myCart)
-        //    {
-        //    return ShoppingCart.MyCart.Sum(x => x.Key.Price);
-        //    }
+
 
         public Product GetOneProduct(int ProdId)
             {
@@ -98,9 +95,9 @@ namespace StoreBL
             return _repo.GetStoreByCustomerId(custId);
             }
 
-        public void RemoveStoreFront(int ID)
+        public void RemoveStoreFront(int id)
             {
-            _repo.RemoveStoreFront(ID);
+            _repo.RemoveStoreFront(id);
             }
 
 

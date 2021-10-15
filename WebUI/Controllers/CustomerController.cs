@@ -83,8 +83,7 @@ namespace WebUI.Controllers
             {
             try
                 {
-                var userId = HttpContext.Request.Cookies["CustomerId"];
-                int custId = int.Parse(userId);
+
                 Customer toEdit = _bl.UpdateCustomer(cust);
                 HttpContext.Response.Cookies.Append("MyStore", toEdit.CustomerDefaultStoreID.ToString());
                 return RedirectToAction("Index","Home");
@@ -176,7 +175,7 @@ namespace WebUI.Controllers
                     ViewBag.Customer = null;
                     ModelState.AddModelError(string.Empty, "That is not a valid Log in");
                     return View("Login");
-                    //@Html.ActionLink("Storefront", "Index", "Storefront", new { id = cust.CustomerId });
+                   
                     }
                 else if (loggedin.IsAdmin)
                     {

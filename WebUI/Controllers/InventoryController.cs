@@ -25,7 +25,6 @@ namespace WebUI.Controllers
             {
 
             ViewBag.Store = _bl.GetOneStoreFront(id);
-            //ViewData["Store"] = id;
             List<Inventory> myInventory = _bl.GetInventoryByStoreID(id);
             foreach(var i in myInventory)
                 {
@@ -40,7 +39,7 @@ namespace WebUI.Controllers
         public ActionResult Create(string storeId)
             {
             int store = int.Parse(storeId);
-            //int storenum = int.Parse(storeId);
+
             ViewBag.Store = _bl.GetOneStoreFront(store);
             return View(new Inventory(store));
             }
@@ -50,8 +49,6 @@ namespace WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Inventory inventory)
             {
-            Product prod = _bl.GetOneProduct(inventory.InvProductID);
-
             try
                 {
                 Inventory inven = _bl.AddInventory(inventory);
@@ -91,17 +88,17 @@ namespace WebUI.Controllers
             }
 
         // GET: InventoryController/Delete/5
-        public ActionResult Delete()
+        public ActionResult Delete(int id)
             {
-            //Inventory inv = _bl.GetInventoryByinvID(id);
-            //inv.Product = _bl.GetOneProduct(inv.InvProductID);
-            return View();
+            Inventory inv = _bl.GetInventoryByinvID(id);
+            inv.Product = _bl.GetOneProduct(inv.InvProductID);
+            return View(inv);
             }
 
         // POST: InventoryController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, Inventory invent)
             {
             try
                 {

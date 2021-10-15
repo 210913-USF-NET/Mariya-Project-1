@@ -81,23 +81,23 @@ namespace DL
                 }).ToList();
 
             }
-        public Customer UpdateCustomer(Customer currentCustomer)
+        public Customer UpdateCustomer(Customer cust)
             {
             Customer updatedcust = new Customer()
                 {
-                CustomerId = currentCustomer.CustomerId,
-                FirstName = currentCustomer.FirstName,
-                LastName = currentCustomer.LastName,
-                UserName = currentCustomer.UserName,
-                Password = currentCustomer.Password,
-                Email = currentCustomer.Email,
-                Street = currentCustomer.Street,
-                City = currentCustomer.City,
-                State = currentCustomer.State,
-                Country = currentCustomer.Country,
-                CustomerDefaultStoreID = currentCustomer.CustomerDefaultStoreID,
-                IsAdmin = currentCustomer.IsAdmin,
-                OrdersList = GetListOrderbyCustID(currentCustomer.CustomerId)
+                CustomerId = cust.CustomerId,
+                FirstName = cust.FirstName,
+                LastName = cust.LastName,
+                UserName = cust.UserName,
+                Password = cust.Password,
+                Email = cust.Email,
+                Street = cust.Street,
+                City = cust.City,
+                State = cust.State,
+                Country = cust.Country,
+                CustomerDefaultStoreID = cust.CustomerDefaultStoreID,
+                IsAdmin = cust.IsAdmin,
+                OrdersList = GetListOrderbyCustID(cust.CustomerId)
 
                 };
             updatedcust = _context.Customers.Update(updatedcust).Entity;
@@ -260,19 +260,9 @@ namespace DL
             }
         public LineItem AddLineItem(LineItem item)
             {
-            //LineItem linetoAdd = new LineItem()
-            //    {
-            //    LineOrderID = item.LineOrderID,
-            //    LineProductID = item.LineProductID,
-            //    StoreId = item.StoreId,
-            //    Quantity = item.Quantity,
-            //    Product = item.Product,
-                
-            //    };
-            //_context.LineItems.(linetoAdd).State = EntityState.Added;
+    
             item = _context.Add(item).Entity;
-            //_context.R
-            //_context.LineItems.Attach(linetoAdd);
+
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
             return item;
@@ -366,19 +356,19 @@ namespace DL
             return _context.ShoppingCarts.Include("Product").ToList().Where(x => x.CustId == CustId).ToList();
             }
 
-        public ShoppingCart UpdateShoppingCart(ShoppingCart cart)
+        public ShoppingCart UpdateShoppingCart(ShoppingCart shoppingCart)
             {
-            _context.ShoppingCarts.Update(cart);
+            _context.ShoppingCarts.Update(shoppingCart);
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
 
-            return cart;
+            return shoppingCart;
             }
 
-        public void RemoveItemFromShoppingCart(ShoppingCart cart)
+        public void RemoveItemFromShoppingCart(ShoppingCart shoppingCart)
             {
-           // ShoppingCart todelte = _context.ShoppingCarts.FirstOrDefault(x => x.Id == cart.Id);
-            _context.Remove(cart);
+
+            _context.Remove(shoppingCart);
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
             }

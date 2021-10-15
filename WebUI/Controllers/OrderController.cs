@@ -12,7 +12,7 @@ namespace WebUI.Controllers
     {
     public class OrderController : Controller
         {
-        private IBL _bl;
+        private readonly IBL _bl;
         public OrderController(IBL bl)
             {
             _bl = bl;
@@ -39,10 +39,7 @@ namespace WebUI.Controllers
         public ActionResult Index(int id)
             {
             int input = id;
-            //Request.Cookies["Id"];
-            //Response.Cookies.Append("Id", id.ToString());
-            //var cookie = Request.Cookies["Id"];
-            //int input = int.Parse(cookie);
+          
   
             List<Order> orders = new List<Order>();
             if(Request.Cookies["HistoryOrder"] != null)
@@ -128,9 +125,9 @@ namespace WebUI.Controllers
             var id = HttpContext.Request.Cookies["MyStore"];
             int Storeid = int.Parse(id);
             decimal mytotal = 1.00M;
-            //need to update
+
             List<Inventory> inventoUpdate= _bl.GetInventoryByStoreID(Storeid);
-            //need to go through cart and update above tables and then delete cart and ViewBag total
+
             List<ShoppingCart> cart= _bl.GetShoppingCartByCustId(custId);
             Order newOrder = new Order();
             newOrder.OrderCustomerID = custId;
@@ -160,7 +157,7 @@ namespace WebUI.Controllers
                         }
                     }
                 checkedout.OrderTotal = mytotal;
-               // checkedout.LineItems = _bl.LineItemsListByOrderID((int)checkedout.OrderId);
+
                 _bl.UpdateOrder(checkedout);
                 _bl.EmptyShoppingCart(cart, custId);
                 Log.Information("OrderCreated");

@@ -12,7 +12,7 @@ namespace WebUI.Controllers
     {
     public class ProductController : Controller
         {
-        private IBL _bl;
+        private readonly IBL _bl;
         public ProductController(IBL bl)
             {
             _bl = bl;

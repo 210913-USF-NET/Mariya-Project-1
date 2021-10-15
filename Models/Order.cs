@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace Models
 {
+#nullable enable
     public class Order
     {
+#nullable enable
         public Order()
             {
             this.Date = DateTime.Now;

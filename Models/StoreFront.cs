@@ -8,7 +8,7 @@ namespace Models
     {
         public StoreFront()
             {
-            //this.Inventories =new List<Inventory>();
+    
             }
         public StoreFront(int id)
             {
