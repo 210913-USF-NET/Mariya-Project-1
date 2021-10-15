@@ -60,16 +60,6 @@ namespace WebUI.Controllers
             }
 
         // GET: CustomerController/Edit/5
-        public ActionResult Edit(int id)
-            {
-
-            Customer toEdit = _bl.GetOneCustomerById(id);
-            return View(toEdit);
-            }
-
-        // POST: CustomerController/Edit/5
-
-        // GET: CustomerController/Edit/5
         public ActionResult Profile()
             {
             var userId = HttpContext.Request.Cookies["CustomerId"];
@@ -93,6 +83,13 @@ namespace WebUI.Controllers
                 Log.Information($"{e}");
                 return RedirectToAction(nameof(Index));
                 }
+            }
+        // GET: CustomerController/Edit/5
+        public ActionResult Edit(int id)
+            {
+
+            Customer toEdit = _bl.GetOneCustomerById(id);
+            return View(toEdit);
             }
         // POST: CustomerController/Edit/5
         [HttpPost]

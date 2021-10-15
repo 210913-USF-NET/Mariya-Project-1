@@ -24,11 +24,6 @@ namespace WebUI.Controllers
             return View(allProd);
             }
 
-        // GET: HomeController1/Details/5
-        public ActionResult Details(int id)
-            {
-            return View();
-            }
 
         // GET: HomeController1/Create
         public ActionResult Create()

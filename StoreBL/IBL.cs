@@ -13,7 +13,7 @@ namespace StoreBL
         Customer GetOneCustomerById(int custID);
         void RemoveCustomer(int custID);
         List<Customer> GetAllCustomers();
-        Customer UpdateCustomer(Customer currentCustomer);
+        Customer UpdateCustomer(Customer cust);
 
 
 
@@ -45,9 +45,9 @@ namespace StoreBL
         Inventory GetInventoryByinvID(int id);
 
         LineItem AddLineItem(LineItem item);
-        List<LineItem> LineItemsListByOrderID(int orderId);
+        List<LineItem> LineItemsListByOrderID(int orderID);
         LineItem UpdateLineItem(LineItem lineItem);
-        LineItem GetLineItemDetailsbyId(int lineID);
+        LineItem GetLineItemDetailsbyId(int lineitemID);
 
         Order AddNewOrder(Order newOrd);
         Order UpdateOrder(Order myOrder);
@@ -57,7 +57,7 @@ namespace StoreBL
         List<Order> AdminOrderHistoryTA(int id);
         List<Order> AdminOrderHistoryTD(int id);
 
-        List<Order> ListOfOrdersByCust(Customer cust);
+        List<Order> ListOfOrdersByCust(Customer currentCustomer);
         List<Order> ListOrder();
         
 
