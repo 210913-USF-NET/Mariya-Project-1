@@ -14,24 +14,25 @@
     <h3>Your Order Total is: $@string.Format("{0:f}", Model.OrderTotal) </h3>
     <h5>Order Date @string.Format("Order was placed {0:d} at {0:t}", Model.Date)</h5>
     <table class="table">
+        <caption>Order Details after purchase</caption>
         <thead>
             <tr>
-                <th>
+                <th scope="col">
                     Product
                 </th>
-                <th>
+                <th scope="col">
                     Author
                 </th>
-                <th>
+                <th scope="col">
                     Genre
                 </th>
-                <th>
+                <th scope="col">
                     Quantity
                 </th>
-                <th>
+                <th scope="col">
                     Price
                 </th>
-                <th></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>

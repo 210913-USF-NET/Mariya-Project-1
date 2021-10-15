@@ -10,25 +10,26 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
+    <caption>List of Products</caption>
     <thead>
         <tr>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.ProductId)
             </th>
 
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.ProductName)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.Genre)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>

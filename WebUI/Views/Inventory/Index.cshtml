@@ -10,24 +10,25 @@
     <a asp-action="Create" asp-route-storeId="@ViewBag.Store.StoreFrontId">Create New</a>
 </p>
 <table class="table">
+    <caption>List of Inventory by Store</caption>
     <thead>
         <tr>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.InventoryID)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.InvStoreID)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.InvProductID)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
-            <th>
-               Product Name
+            <th scope="col">
+                Product Name
             </th>
-            <th></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>

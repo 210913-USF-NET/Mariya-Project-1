@@ -39,6 +39,7 @@
 <body>
 
     <table class="table">
+        <caption>List of Orders for Admin</caption>
         <thead>
             @using (Html.BeginForm("HistoryOrder", "Order"))
                 {
@@ -51,22 +52,22 @@
 
                 }
             <tr>
-                <th>
+                <th scope="col">
                     @Html.DisplayNameFor(model => model.OrderId)
                 </th>
-                <th>
+                <th scope="col">
                     @Html.DisplayNameFor(model => model.OrderCustomerID)
                 </th>
-                <th>
+                <th scope="col">
                     @Html.DisplayNameFor(model => model.OrderStoreID)
                 </th>
-                <th>
+                <th scope="col">
                     @Html.DisplayNameFor(model => model.OrderTotal)
                 </th>
-                <th>
+                <th scope="col">
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
-                <th></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
