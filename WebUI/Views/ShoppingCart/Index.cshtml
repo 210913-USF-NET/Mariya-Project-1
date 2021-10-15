@@ -17,13 +17,10 @@
         }
     else
         {
-        <table class="table">
-            <caption>List of Items in ShoppingCart</caption>
             <hr />
             <h2>Your current order total is $@string.Format("{0:f}", decimal.Parse(ViewBag.Total))</h2>
             <hr />
            
-            <tbody>
                 @foreach (var prod in Model)
                     {
                     <div>
@@ -49,9 +46,6 @@
                     </div>
 
                     }
-
-        </table>
-    
         <p>
             <a class="btn btn-sm btn-danger" asp-area="" asp-controller="StoreFront" asp-action="IndexCust">Continue Shopping</a>
             <form asp-controller="Order" asp-action="Create">
