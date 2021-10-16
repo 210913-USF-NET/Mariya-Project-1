@@ -55,7 +55,6 @@ namespace WebUI
 
             app.UseRouting();
 
-            app.UseAuthorization();
 
             app.UseAuthorization();
             app.UseCookiePolicy();
