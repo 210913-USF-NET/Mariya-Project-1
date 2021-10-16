@@ -23,6 +23,14 @@ namespace WebUI.Controllers
             List<Product> allProd = _bl.ProductsList();
             return View(allProd);
             }
+        // GET: HomeController1
+        public ActionResult IndexHome()
+            {
+            List<string> genreList = _bl.ProdGenreList();
+            ViewBag.Genre = genreList;
+            List<Product> allProd = _bl.ProductsList();
+            return View(allProd);
+            }
 
 
         // GET: HomeController1/Create

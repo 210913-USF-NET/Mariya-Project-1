@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Models.Product>
+
+@{
+    ViewData["Title"] = "IndexHome";
+
+}
+
+@foreach (var g in ViewBag.Genre)
+    {
+    <hr />
+    <h2> @g</h2>
+    <hr />
+    @foreach (var prod in Model.Where(x => x.Genre.Equals(g)))
+        {
+
+
+        <div>
+            <h5>@prod.ProductName</h5>
+            <img class="product-image" img src="@Html.Raw(prod.ImageName)" style="height:100px;width:100px;" alt="Image of @prod.Product.ProductName" />
+            <h6>@prod.ProductAuthor</h6>
+            <h6>$@string.Format("{0:f}", prod.Price)</h6>
+
+            <p class="description">@prod.Description</p>
+           
+        </div>
+
+        }
+
+    }
