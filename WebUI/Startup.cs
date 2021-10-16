@@ -32,8 +32,8 @@ namespace WebUI
 
             services.AddScoped<IRepo, Repo>();
             services.AddScoped<IBL, BL>();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => options.LoginPath = "/Index");
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie(options => options.LoginPath = "/Index");
 
             }
 
