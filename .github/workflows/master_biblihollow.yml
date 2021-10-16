@@ -90,5 +90,5 @@ jobs:
         with:
           app-name: 'BibliHollow'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9C83F0CF74534927BD1878C95F3354AF }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_92AACD994637431FBEB888ECFA739391 }}
           package: .
