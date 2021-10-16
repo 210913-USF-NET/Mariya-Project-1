@@ -59,7 +59,7 @@ namespace WebUI
 
             app.UseAuthorization();
             app.UseCookiePolicy();
-
+            app.UseDeveloperExceptionPage();
 
             app.UseEndpoints(endpoints =>
             {
