@@ -45,6 +45,8 @@ It's up on azure: https://biblihollow.azurewebsites.net/
 * As an admin, I can choose a location.
 * As an admin, I can add a new location.
 * As an admin, I can edit an existing location.
+* As an admin, I can add a new customer.
+* As an admin, I can edit an existing customer and make them admin as well.
 * As an admin, I can add a new product.
 * As an admin, I can edit an existing product.
 * As an admin, I can view and select products that have no inventory yet. 
