@@ -69,4 +69,4 @@ It's up on azure: https://biblihollow.azurewebsites.net/
 * Have an ER Diagram
 
 #ERD
-https://lucid.app/lucidchart/443f1e26-325e-4973-b900-f3fcd2b45953/edit?invitationId=inv_2600fa5b-4357-47ab-ab1a-d3c05c4d6387
+https://lucid.app/lucidchart/443f1e26-325e-4973-b900-f3fcd2b45953/view?invitationId=inv_2600fa5b-4357-47ab-ab1a-d3c05c4d6387&page=0_0#
